@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>سكينة | رفيقك النفسي بالذكاء الاصطناعي</title>
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#0b0a1c;--panel:#15132b;--line:#2b2852;--text:#ece9ff;--muted:#a8a3cc;--violet:#9b8cff;--pink:#ff8fb1;--cyan:#6fe3ff;--warn:#ffb86b;--gold:#e8c987}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+*,*:before,*:after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--text);font:400 16px/1.9 "IBM Plex Sans Arabic",system-ui,sans-serif;overflow-x:hidden}
+h1,h2,h3{font-family:"Readex Pro","IBM Plex Sans Arabic",sans-serif;margin:0;line-height:1.4}
+#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0}
+main,nav,footer{position:relative;z-index:1}
+nav{display:flex;gap:6px;justify-content:center;padding:12px;position:sticky;top:env(safe-area-inset-top,0px);background:rgba(11,10,28,.75);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:5}
+nav a{color:var(--muted);text-decoration:none;font-size:15px;padding:3px 14px;border-radius:99px;transition:.2s}
+nav a:hover,nav a:focus-visible{color:var(--text);background:var(--panel);outline:none}
+section{max-width:780px;margin:0 auto;padding:60px 18px 10px}
+#hero{min-height:82vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+.halo{width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(111,227,255,.35),transparent 70%);animation:br 6s ease-in-out infinite;margin-bottom:-34px}
+@keyframes br{50%{transform:scale(1.5);opacity:.5}}
+#title{font-size:clamp(70px,22vw,150px);font-weight:700;line-height:1.3;min-height:1.3em;background:linear-gradient(100deg,var(--text) 15%,var(--violet) 50%,var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.caret{display:inline-block;width:3px;height:.8em;background:var(--cyan);margin-inline-start:4px;vertical-align:-.05em;animation:bl 1s steps(1) infinite}
+.sub .caret{width:2px;height:1em}
+@keyframes bl{50%{opacity:0}}
+.sub{font:400 clamp(18px,4.6vw,26px) "Readex Pro",sans-serif;color:var(--cyan);min-height:1.8em;margin:4px 0}
+.lead{color:var(--muted);max-width:500px;margin:6px 0 26px}
+.btn{display:inline-block;padding:9px 28px;border-radius:14px;border:0;font:500 17px "IBM Plex Sans Arabic",sans-serif;cursor:pointer;text-decoration:none;color:#14102e;background:linear-gradient(120deg,var(--violet),var(--cyan));transition:transform .2s,box-shadow .2s}
+.btn:hover,.btn:focus-visible{transform:translateY(-3px);box-shadow:0 10px 30px rgba(155,140,255,.35);outline:none}
+h2{font-size:clamp(26px,6vw,36px);margin-bottom:18px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:20px}
+.stat b{display:block;font:700 38px "Readex Pro",sans-serif;color:var(--violet);line-height:1.4}
+.stat span{color:var(--muted);font-size:14px}
+.chatwrap{display:flex;flex-direction:column;height:min(80vh,680px);padding:0;overflow:hidden}
+#chat{flex:1;min-height:0;overflow-y:auto;padding:16px 14px 6px;scroll-behavior:smooth}
+.cb{max-width:94%;margin:0 0 12px;padding:12px 16px;border-radius:18px;animation:in .45s cubic-bezier(.2,.8,.2,1);overflow-wrap:anywhere}
+@keyframes in{from{opacity:0;transform:translateY(14px)}}
+.bot{background:#1b1838;border:1px solid var(--line);border-top-right-radius:4px;margin-inline-end:auto}
+.me{background:linear-gradient(120deg,var(--violet),var(--cyan));color:#14102e;border-top-left-radius:4px;margin-inline-start:auto;font-weight:500}
+.cb p{margin:0 0 8px}.cb p:last-child{margin:0}
+.h{font:600 15px "Readex Pro",sans-serif;color:var(--cyan);margin:0 0 6px;display:block}
+.nass{font:400 20px/2.1 "Readex Pro","IBM Plex Sans Arabic",serif;color:var(--gold);margin:4px 0 6px}
+.ref{font-size:13px;color:var(--muted);display:block;margin-bottom:8px}
+.src{font-size:13px;color:var(--muted);border-top:1px dashed var(--line);padding-top:6px;margin-top:8px}
+.step{padding-right:12px;border-right:3px solid var(--violet);margin:0 0 6px}
+.story b{color:var(--pink);font-family:"Readex Pro",sans-serif;font-weight:600}
+.meters{display:grid;gap:12px}
+.mt{display:flex;justify-content:space-between;font-size:14px;color:var(--muted)}
+.mt b{font:700 20px "Readex Pro",sans-serif;color:var(--text)}
+.bar{height:8px;border-radius:8px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;width:0;border-radius:8px;background:linear-gradient(270deg,var(--violet),var(--cyan));transition:width 1.4s cubic-bezier(.2,.8,.2,1)}
+.rule{font-size:13px;color:var(--muted);margin-top:10px;border-top:1px dashed var(--line);padding-top:8px}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.links a,.chip{padding:2px 14px;border-radius:99px;border:1px solid var(--line);color:var(--text);text-decoration:none;font:inherit;font-size:14px;background:transparent;cursor:pointer;transition:.2s}
+.links a:hover,.chip:hover,.links a:focus-visible,.chip:focus-visible{background:var(--violet);color:#14102e;border-color:var(--violet);outline:none}
+.alert{border-color:var(--warn);background:#241c1a}.alert .h{color:var(--warn)}
+.alert .links a{border-color:var(--warn);color:var(--warn);direction:ltr}
+.dots{display:inline-flex;gap:5px;padding:6px 0}.dots i{width:8px;height:8px;border-radius:50%;background:var(--violet);animation:d 1.1s infinite}
+.dots i:nth-child(2){animation-delay:.18s}.dots i:nth-child(3){animation-delay:.36s}
+@keyframes d{50%{transform:translateY(-6px);opacity:.4}}
+.chips{display:flex;flex-wrap:wrap;gap:8px;padding:0 14px 8px;min-height:6px}
+.mood{font-size:15px}
+form{display:flex;gap:8px;padding:8px 14px 12px;border-top:1px solid var(--line)}
+#t{flex:1;resize:none;height:50px;max-height:120px;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:16px;padding:10px 14px;font:inherit}
+#t:focus{outline:none;border-color:var(--violet);box-shadow:0 0 0 3px rgba(155,140,255,.2)}
+.send{width:50px;height:50px;border:0;border-radius:16px;background:linear-gradient(120deg,var(--violet),var(--cyan));color:#14102e;font-size:22px;cursor:pointer;transition:transform .2s}
+.send:hover,.send:focus-visible{transform:scale(1.08);outline:none}
+.note{color:var(--muted);font-size:13px;margin:12px 4px 0;line-height:1.7}
+footer{text-align:center;color:var(--muted);font-size:14px;padding:44px 20px 40px}
+.rv{opacity:0;transform:translateY(24px);transition:opacity .8s,transform .8s}.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}#chat{scroll-behavior:auto}html{scroll-behavior:auto}}
+
+nav{flex-wrap:wrap;gap:2px}nav a{font-size:14px;padding:2px 11px}
+label{display:block;margin:16px 0 6px;font-weight:500}
+.ta,#ed textarea,#pb,#pa{width:100%;min-height:76px;resize:vertical;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:14px;padding:10px 14px;font:inherit}
+.ta:focus,#ed textarea:focus,#pb:focus,#pa:focus,select:focus,input:focus{outline:none;border-color:var(--violet);box-shadow:0 0 0 3px rgba(155,140,255,.2)}
+.chips.p0{padding:0}
+.chip.on{background:var(--violet);color:#14102e;border-color:var(--violet)}
+.err{color:var(--warn);font-size:14px;min-height:1.4em;margin:8px 0 0}
+.dc{margin-top:14px;animation:in .6s cubic-bezier(.2,.8,.2,1)}
+.dc p{margin:0 0 8px}.dc p:last-child{margin:0}
+details.n{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:10px 16px;margin-bottom:10px}
+details.n summary{cursor:pointer;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+details.n small{color:var(--muted)}
+details.n .body{padding-top:8px;font-size:15px;color:var(--muted)}
+details.n .body b{color:var(--text)}
+.del{background:none;border:0;color:var(--muted);cursor:pointer;font:inherit;font-size:14px;padding:2px 8px;border-radius:8px}
+.del:hover,.del:focus-visible{color:var(--pink);outline:none}
+.badge{display:inline-block;padding:0 16px;border-radius:99px;font:600 16px "Readex Pro",sans-serif;border:1px solid var(--cyan);color:var(--cyan)}
+.badge.up{border-color:#7be0a4;color:#7be0a4}.badge.flat{border-color:var(--warn);color:var(--warn)}
+.chart{width:100%;height:auto;display:block;margin-top:10px}
+.chart path.ln{fill:none;stroke:url(#gg);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.chart text{fill:var(--muted);font-size:10px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+select,input[type=number]{background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:12px;padding:6px 12px;font:inherit}
+.pb{height:10px;border-radius:10px;background:var(--line);overflow:hidden;margin:8px 0}
+.pb i{display:block;height:100%;width:0;background:linear-gradient(270deg,var(--violet),var(--cyan));transition:width 1.2s}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.mt2{margin-top:14px}
+h3.s{font-size:19px;margin:26px 0 10px}
+
+
+.ov{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(8,7,20,.9);backdrop-filter:blur(8px);overflow-y:auto}
+.ov[hidden]{display:none}.ov .card{max-width:420px;width:100%}
+body.locked{overflow:hidden}
+.in{width:100%;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:14px;padding:10px 14px;font:inherit}
+.in:focus{outline:none;border-color:var(--violet);box-shadow:0 0 0 3px rgba(155,140,255,.2)}
+.chip.sos{border-color:var(--warn);color:var(--warn)}
+.sosl{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.sosl a{direction:ltr;padding:2px 14px;border-radius:99px;border:1px solid var(--warn);color:var(--warn);text-decoration:none}
+body{padding-bottom:64px}
+.sosbar{position:fixed;inset-inline:0;bottom:0;z-index:40;display:flex;justify-content:center;padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px));background:linear-gradient(to top,rgba(11,10,28,.92),rgba(11,10,28,0));pointer-events:none}
+.sosbar .chip{pointer-events:auto;background:rgba(24,20,30,.96);font-size:15px;padding:3px 22px;box-shadow:0 4px 18px rgba(0,0,0,.45)}
+
+#ak{flex:1;min-height:0;overflow-y:auto;padding:16px 14px 6px;scroll-behavior:smooth}
+#at{flex:1;resize:none;height:50px;max-height:120px;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:16px;padding:10px 14px;font:inherit}
+#at:focus{outline:none;border-color:var(--violet);box-shadow:0 0 0 3px rgba(155,140,255,.2)}
+.pw{white-space:pre-wrap}
+@media (prefers-reduced-motion:reduce){#ak{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="ov" id="sosm" hidden role="dialog" aria-modal="true" aria-labelledby="st">
+<div class="card"><h2 id="st" style="font-size:26px;margin-bottom:6px">أرقام الطوارئ</h2>
+<p style="margin:0">إذا أنت في خطر الحين أو تفكر تؤذي نفسك، اتصل فوراً، وكلّم أحد قريب منك ولا تبقى لحالك.</p>
+<div class="sosl"><a href="tel:997">997 · الإسعاف (الهلال الأحمر)</a><a href="tel:911">911 · الطوارئ</a><a href="tel:937">937 · وزارة الصحة</a></div>
+<button class="btn ghost" id="sosx" type="button" style="margin-top:16px">إغلاق</button></div></div>
+
+<nav aria-label="الأقسام"><a href="#hero">سكينة</a><a href="#app">سولف معي</a><a href="#ask">اسأل سكينة</a><a href="#diary">مذكرتي</a><a href="#prayer">صلاتي</a><a href="#growth">نموّي</a><a href="#stats">الأرقام</a></nav>
+<main>
+<section id="hero">
+<div class="halo"></div>
+<h1 id="title" aria-label="سكينة"><span id="ti"></span><span class="caret"></span></h1>
+<div class="sub"><span id="tg"></span><span class="caret"></span></div>
+<p class="lead">مذكرتك وسوالفك ورحلة نموّك النفسي في مكان واحد.</p>
+<div class="row" style="justify-content:center"><a class="btn" href="#app">ابدأ السوالف</a><a class="btn ghost" href="#diary">اكتب يومك</a></div>
+</section>
+
+<section id="stats" class="rv">
+<h2>داخل التطبيق</h2>
+<div class="stats">
+<div class="card stat"><b data-n="0" id="s1">0</b><span>موضوع نفسي يغطيه</span></div>
+<div class="card stat"><b data-n="0" id="s2">0</b><span>قصة قرآنية ونبوية</span></div>
+<div class="card stat"><b data-n="0" id="s3">0</b><span>نص من آية وحديث</span></div>
+<div class="card stat"><b data-n="0" id="s4">0</b><span>أيام سجّلت فيها مزاجك</span></div>
+</div>
+</section>
+
+<section id="app" class="rv">
+<h2>سولف مع سكينة</h2>
+<div class="card chatwrap">
+<div id="chat" aria-live="polite"></div>
+<div class="chips" id="chips"></div>
+<form id="f"><textarea id="t" placeholder="اكتب اللي في خاطرك..." aria-label="رسالتك" rows="1"></textarea><button class="send" type="submit" aria-label="إرسال">➤</button></form>
+</div>
+<p class="note">للتوعية والتشجيع فقط، وليس بديلاً عن مختص نفسي أو مفتٍ. تحليل المشاعر في هذا النموذج يعتمد على قاموس كلمات وقواعد، وراجع النصوص الشرعية في مصادرها الأصلية. محادثتك لا تُرسل لأي جهة، ويبقى سجل المزاج على جهازك فقط.</p>
+</section>
+
+<section id="ask" class="rv">
+<h2>اسأل سكينة</h2>
+<p class="note" style="margin-top:0">اسألني أي سؤال، أو اطلب قصص الأنبياء والصالحين وأسردها لك بمصادرها.</p>
+<div class="card chatwrap"><div id="ak" aria-live="polite"></div><div class="chips" id="akc"></div>
+<form id="af"><textarea id="at" placeholder="اسألني أي سؤال..." aria-label="سؤالك" rows="1"></textarea><button class="send" type="submit" aria-label="إرسال">➤</button></form></div>
+<p class="note" id="aknote"></p>
+</section>
+
+<section id="diary" class="rv">
+<h2>مذكرتي</h2>
+<p class="note">فضفض مثل ما تكتب في دفترك، وأنا أقرأ وأقدّر وأشجعك. اللي تكتبه يبقى على جهازك.</p>
+<div class="card" id="ed">
+<label id="dml">كيف حالك الحين؟</label><div class="chips p0" id="dm" role="group" aria-labelledby="dml"></div>
+<label for="d1">فضفض: كيف كان يومك؟</label><textarea id="d1" rows="5"></textarea>
+<label for="d2">أصعب موقف مر عليك اليوم؟</label><textarea id="d2"></textarea>
+<label id="dal">كيف تعاملت معه؟</label><div class="chips p0" id="da" role="group" aria-labelledby="dal"></div>
+<label for="d3">وش سويت بالضبط؟ (اختياري)</label><textarea id="d3"></textarea>
+<label for="d4">إيجابياتك اليوم</label><textarea id="d4"></textarea>
+<label for="d5">سلبياتك اليوم</label><textarea id="d5"></textarea>
+<label for="d6">مخاوفك</label><textarea id="d6"></textarea>
+<label for="d7">أشياء في نفسك حاب تغيّرها</label><textarea id="d7"></textarea>
+<label id="dpl">فرضك اليوم: وش صليت؟</label><div class="chips p0" id="dp" role="group" aria-labelledby="dpl"></div>
+<p class="err" id="derr" role="alert"></p>
+<button class="btn" id="dsave" type="button">احفظ وحلّل يومي</button>
+</div>
+<div id="dres" aria-live="polite"></div>
+<h3 class="s">ملاحظاتي السابقة</h3><div id="dlist"></div>
+</section>
+
+<section id="prayer" class="rv">
+<h2>صلاتي</h2>
+<div class="card">
+<h3 style="font-size:19px;margin-bottom:6px">فرضك اليوم</h3>
+<p class="note" style="margin-top:0">كيف علاقتك بربك اليوم؟ علّم على اللي صليته.</p>
+<div class="chips p0" id="pt"></div>
+<div class="row mt2"><div class="stat"><b id="pstreak" style="font:700 30px 'Readex Pro',sans-serif;color:var(--violet)">0</b><span style="color:var(--muted);font-size:14px">أيام متواصلة بالفروض كاملة</span></div></div>
+</div>
+<div class="card dc" id="peffect"></div>
+<div class="card dc">
+<h3 style="font-size:19px;margin-bottom:6px">خطتك للمواظبة</h3>
+<div class="row"><label for="pd" style="margin:0">المدة:</label><select id="pd"><option value="7">7 أيام</option><option value="21">21 يوم</option><option value="40" selected>40 يوم</option><option value="90">90 يوم</option></select><button class="btn" id="pstart" type="button">ابدأ الخطة</button></div>
+<div id="pinfo" class="mt2"></div>
+</div>
+<div class="card dc">
+<h3 style="font-size:19px;margin-bottom:6px">وش التغيّر اللي لاحظته؟</h3>
+<label for="pb">قبل ما التزم بالصلاة</label><textarea id="pb"></textarea>
+<label for="pa">بعد ما واظبت عليها</label><textarea id="pa"></textarea>
+<div class="row mt2"><button class="btn ghost" id="psave" type="button">احفظ</button><span id="pdone" style="color:var(--cyan);font-size:14px"></span></div>
+</div>
+<h3 class="s">أدعية تقوّي إيمانك</h3><div id="duas"></div>
+<div class="card dc" id="pfaith" style="margin-top:14px"></div>
+</section>
+
+<section id="growth" class="rv">
+<h2>نموّي النفسي</h2>
+<div id="gbox"></div>
+</section>
+</main>
+<footer>© سكينة. جميع الحقوق محفوظة.</footer>
+<div class="sosbar"><button class="chip sos" id="sos" type="button">🆘 طوارئ</button></div>
+
+<script>
+(function(){
+var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+var $=function(i){return document.getElementById(i)};
+function norm(s){return s.replace(/[أإآ]/g,'ا').replace(/ؤ/g,'و').replace(/ئ/g,'ي').replace(/ة/g,'ه').replace(/ى/g,'ي').replace(/[\u064B-\u0652]/g,'')}
+var CRISIS=/نتحر|اموت(?! (ضحك|جوع|من الضحك|من الجوع))|ما اب(ي|غي|غا) اعيش|(اذي|اوذي|اقتل|اذبح|ارمي|انهي) (نفسي|حياتي)|بقتل نفسي|بنهي حياتي|بذبح نفسي|ما لي داعي اعيش|ما فيه داعي اعيش/;
+var INTENT=/بنتحر|بقتل نفسي|بنهي حياتي|بذبح نفسي|قررت (انتحر|اقتل نفسي|انهي حياتي|اموت)|(ابي|ناوي|ناويه|ابغي) (انتحر|اقتل نفسي|انهي حياتي)|اخذت (الحبوب|حبوب)/;
+var USER={name:'',email:''};
+var T={
+anx:{l:'القلق والتوتر',v:'القلق',k:/قلق|توتر|متوتر|خايف|خوف|وسواس|افكار|اقلق|ضغط|ارتباك/,
+ pl:['اكتب كل اللي يقلقك في ورقة، وافصل بين اللي بيدك واللي مو بيدك. اللي بيدك سوّ له خطوة صغيرة اليوم.','خذ نفس عميق بطيء 4 ثواني شهيق و6 ثواني زفير، كرره خمس مرات. هذا يهدي الجسم قبل ما تفكر.'],
+ a:{t:'أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ',r:'سورة الرعد، آية 28',f:'تقول الآية إن القلوب تسكن وتهدأ بذكر الله. وبيّن السعدي أن هذا الاطمئنان سببه معرفة الله ومحبته والأنس به، فتزول الوحشة والهم. وذكر ابن كثير أن القلوب تستقر بذكر الله.',s:'تيسير الكريم الرحمن للسعدي، وتفسير القرآن العظيم لابن كثير'},
+ h:{t:'عَجَبًا لِأَمْرِ الْمُؤْمِنِ إِنَّ أَمْرَهُ كُلَّهُ خَيْرٌ... إِنْ أَصَابَتْهُ سَرَّاءُ شَكَرَ فَكَانَ خَيْرًا لَهُ، وَإِنْ أَصَابَتْهُ ضَرَّاءُ صَبَرَ فَكَانَ خَيْرًا لَهُ',r:'رواه مسلم (2999)',f:'يعلمنا الحديث نظرة تخفف القلق: كل حال فيه باب خير، الشكر في الرخاء والصبر في الشدة.'}},
+sad:{l:'الحزن وضيق الصدر',v:'الحزن والضيق',k:/حزن|حزين|زعلان|ضيق|اكتئاب|مكتئب|تعبان|ابكي|بكيت|مخنوق|نفسيتي|تعب|ملل|فراغ/,
+ pl:['اللي تحسه مفهوم، لا تحاول تكتمه. سمّه بالاسم: حزن؟ إرهاق؟ خيبة؟ تسمية الشعور تخفف حدته.','سوّ شي بسيط يرجعك لنفسك: مشي قصير، شمس، كلمة مع شخص قريب. الحزن ما يختفي بالعزلة.'],
+ a:{t:'فَإِنَّ مَعَ الْعُسْرِ يُسْرًا ۝ إِنَّ مَعَ الْعُسْرِ يُسْرًا',r:'سورة الشرح، آية 5 و6',f:'وعد من الله إن الشدة يجي معها فرج. ومما ذكره المفسرون كابن كثير إن تكرار الجملة للتأكيد، وإن "العسر" جاء معرّفاً فهو واحد و"يسراً" جاء منكّراً فيتعدد، فيقال: لن يغلب عسرٌ يسرين.',s:'تفسير القرآن العظيم لابن كثير، وتيسير الكريم الرحمن للسعدي'},
+ h:{t:'مَا يُصِيبُ الْمُسْلِمَ مِنْ نَصَبٍ وَلَا وَصَبٍ وَلَا هَمٍّ وَلَا حُزْنٍ وَلَا أَذًى وَلَا غَمٍّ، حَتَّى الشَّوْكَةِ يُشَاكُهَا، إِلَّا كَفَّرَ اللَّهُ بِهَا مِنْ خَطَايَاهُ',r:'متفق عليه: البخاري (5641)، ومسلم (2573)',f:'حتى الهم والحزن الصغير ما يضيع عند الله، يرفع الدرجات ويكفّر الذنوب.'}},
+fut:{l:'الخوف من المستقبل والرزق',v:'التوكل والخوف من المستقبل',k:/مستقبل|رزق|وظيفه|فلوس|دين|تخرج|تدريب|ما لقيت|مجهول|جامعه|راتب|ضايع/,
+ pl:['قسّم المستقبل لخطوات قريبة: وش اللي أقدر أسويه هذا الأسبوع؟ الغموض يخف لما يصير له خطوات.','خذ بالأسباب وبعدها ريّح قلبك: التوكل عمل بالجوارح وطمأنينة بالقلب.'],
+ a:{t:'وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا ۝ وَيَرْزُقْهُ مِنْ حَيْثُ لَا يَحْتَسِبُ ۚ وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ',r:'سورة الطلاق، آية 2 و3',f:'ذكر السعدي أن التقوى سبب للمخرج من الضيق والرزق من جهة ما يتوقع الإنسان، وأن "حسبه" أي كافيه. والتوكل اعتماد القلب على الله مع فعل الأسباب.',s:'تيسير الكريم الرحمن للسعدي'},
+ h:{t:'لَوْ أَنَّكُمْ تَوَكَّلْتُمْ عَلَى اللَّهِ حَقَّ تَوَكُّلِهِ لَرَزَقَكُمْ كَمَا يَرْزُقُ الطَّيْرَ، تَغْدُو خِمَاصًا وَتَرُوحُ بِطَانًا',r:'رواه الترمذي (2344) وقال: حسن صحيح',f:'الطير يخرج صباحاً يطلب رزقه، فالتوكل سعي مع ثقة بالله، مو جلوس وانتظار.'}},
+sin:{l:'الذنب والندم',v:'التوبة والندم',k:/ذنب|ندم|معصيه|توبه|تبت|غلطت|اذنبت|ضميري|اغلط/,
+ pl:['الندم الصادق بداية التوبة، بس لا يتحول لجلد للذات. اترك الذنب، واندم، وانوِ ما ترجع له.','أصلح اللي تقدر تصلحه، وارجع لله بدعاء واستغفار. باب التوبة مفتوح.'],
+ a:{t:'قُلْ يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا عَلَىٰ أَنفُسِهِمْ لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ ۚ إِنَّ اللَّهَ يَغْفِرُ الذُّنُوبَ جَمِيعًا',r:'سورة الزمر، آية 53',f:'ذكر ابن كثير أن الآية دعوة لكل عاصٍ للتوبة والإنابة، وأن الله يغفر لمن تاب مهما كبر ذنبه. والمعنى لا تيأس من رحمة الله.',s:'تفسير القرآن العظيم لابن كثير'},
+ h:{t:'كُلُّ ابْنِ آدَمَ خَطَّاءٌ، وَخَيْرُ الْخَطَّائِينَ التَّوَّابُونَ',r:'رواه الترمذي (2499)، وحسّنه الألباني',f:'الخطأ من طبيعة البشر، والفرق في اللي يرجع ويتوب.'}},
+lon:{l:'الوحدة وقلة من يفهمك',v:'الوحدة والصحبة',k:/وحيد|وحده|ماحد|ما احد|صديق|منعزل|ما يفهمني|صحبه|صاحب|ما عندي احد/,
+ pl:['الوحدة تضغط، بس لا تستسلم لها. ابدأ بتواصل صغير: رسالة لشخص تثق فيه أو سلام على زميل.','ابحث عن مجموعة تشاركك اهتمامك (تقنية، ذكاء اصطناعي). الصحبة تنبني من المواقف المشتركة.'],
+ a:{t:'وَإِذَا سَأَلَكَ عِبَادِي عَنِّي فَإِنِّي قَرِيبٌ ۖ أُجِيبُ دَعْوَةَ الدَّاعِ إِذَا دَعَانِ',r:'سورة البقرة، آية 186',f:'بيّن السعدي قرب الله من عباده بعلمه وإجابته لمن دعاه. فمهما حسيت إنك لحالك، تقدر تكلمه بأي وقت وبأي كلام.',s:'تيسير الكريم الرحمن للسعدي'},
+ h:{t:'الْمُؤْمِنُ لِلْمُؤْمِنِ كَالْبُنْيَانِ يَشُدُّ بَعْضُهُ بَعْضًا',r:'متفق عليه: البخاري (481)، ومسلم (2585)',f:'الحديث يحثنا نكون سند لبعض، فلا تتردد تطلب الدعم من اللي حولك.'}},
+fail:{l:'الإحباط وضعف الثقة بالنفس',v:'الثقة بالنفس',k:/فشل|فاشل|ثقه|ما اقدر|احبط|احباط|ضعيف|اقل من|مقارنه|اقارن|رسبت|مو كفو|ما استاهل/,
+ pl:['اكتب ثلاثة أشياء أنجزتها حتى لو صغيرة. الدماغ يركز على النقص وننسى الرصيد.','قارن نفسك بنفسك قبل شهر، مو بغيرك. وحوّل الفشل لسؤال: وش تعلمت؟'],
+ a:{t:'وَلَا تَهِنُوا وَلَا تَحْزَنُوا وَأَنتُمُ الْأَعْلَوْنَ إِن كُنتُم مُّؤْمِنِينَ',r:'سورة آل عمران، آية 139',f:'ذكر ابن كثير أنها نزلت تسلية للمؤمنين بعد أحد، تنهاهم عن الضعف والحزن وتبشرهم بحسن العاقبة. الدرس: الانكسار مرحلة وليس النهاية.',s:'تفسير القرآن العظيم لابن كثير'},
+ h:{t:'الْمُؤْمِنُ الْقَوِيُّ خَيْرٌ وَأَحَبُّ إِلَى اللَّهِ مِنَ الْمُؤْمِنِ الضَّعِيفِ، وَفِي كُلٍّ خَيْرٌ. احْرِصْ عَلَى مَا يَنْفَعُكَ وَاسْتَعِنْ بِاللَّهِ وَلَا تَعْجِزْ',r:'رواه مسلم (2664)',f:'الحديث يجمع الجهد مع الاستعانة بالله، ويقول لا تعجز: ابدأ بما تقدر عليه.'}},
+ang:{l:'الغضب',v:'التحكم في الغضب',k:/غضب|عصبي|معصب|انفجر|اصرخ|استفزني|اكره|يستفزني|زعل/,
+ pl:['وقت الغضب اسكت وابتعد دقيقتين قبل ما ترد، الكلمة اللي تنقال ما ترجع.','لاحظ وش اللي يشعل غضبك فعلاً: احتياج ما انلبّى؟ تعب؟ تعرفه يساعدك تتجنبه.'],
+ a:{t:'وَالْكَاظِمِينَ الْغَيْظَ وَالْعَافِينَ عَنِ النَّاسِ ۗ وَاللَّهُ يُحِبُّ الْمُحْسِنِينَ',r:'سورة آل عمران، آية 134',f:'ذكر السعدي أن كظم الغيظ إمساك النفس عن تنفيذ الغضب، وأن العفو أعلى منه، وكلاهما من صفات المتقين.',s:'تيسير الكريم الرحمن للسعدي'},
+ h:{t:'لَيْسَ الشَّدِيدُ بِالصُّرَعَةِ، إِنَّمَا الشَّدِيدُ الَّذِي يَمْلِكُ نَفْسَهُ عِنْدَ الْغَضَبِ',r:'متفق عليه: البخاري (6114)، ومسلم (2609)',f:'القوة الحقيقية في ضبط النفس، مو في الغلبة.'}},
+loss:{l:'فقد عزيز أو فراق',v:'الصبر على فقد الأحبة',k:/فقد|توفي|توفى|مات|وفاه|رحل|اشتاق|فراق|عزاء|ابوي|امي|جدي|جدتي/,
+ pl:['الله يرحمه ويصبّرك. ابكِ إذا احتجت، البكاء مو ضعف ولا اعتراض.','لا تحمّل نفسك العزلة، خلك قريب من أهلك، وادعُ له وتصدق عنه.'],
+ a:{t:'وَبَشِّرِ الصَّابِرِينَ ۝ الَّذِينَ إِذَا أَصَابَتْهُم مُّصِيبَةٌ قَالُوا إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ',r:'سورة البقرة، آية 155 و156',f:'ذكر السعدي أن الابتلاء سنة ماضية، وأن الصابر الذي يسترجع وهو مؤمن بأن الجميع لله وإليه يرجع، له البشارة والأجر.',s:'تيسير الكريم الرحمن للسعدي'},
+ h:{t:'إِنَّ الْعَيْنَ تَدْمَعُ، وَالْقَلْبَ يَحْزَنُ، وَلَا نَقُولُ إِلَّا مَا يُرْضِي رَبَّنَا',r:'رواه البخاري (1303)',f:'قاله النبي ﷺ عند وفاة ابنه إبراهيم، فالحزن والبكاء رحمة وليس منافياً للصبر.'}}
+};
+
+// ---- merge topics, add stories, gender tokens
+T.anx.k=new RegExp(T.anx.k.source+'|'+T.fut.k.source);delete T.fut;
+function P(k,o){for(var x in o)T[k][x]=o[x]}
+var SRC='تفسير القرآن العظيم لابن كثير، وتيسير الكريم الرحمن للسعدي';
+T.anx.l='القلق والخوف من المستقبل';T.anx.v='القلق والخوف من المستقبل';
+P('anx',{em:'قلق',
+pl:['{اكتب|اكتبي} كل اللي يقلقك في ورقة، و{افصل|افصلي} بين اللي بيدك واللي مو بيدك، وللي بيدك {سوّ|سوّي} خطوة صغيرة اليوم.','{خذ|خذي} نفس عميق: 4 ثواني شهيق و6 زفير، {كرره|كرريه} خمس مرات، يهدي الجسم قبل ما {تفكر|تفكرين}.'],
+a:{t:'قَالَ أَصْحَابُ مُوسَىٰ إِنَّا لَمُدْرَكُونَ ۝ قَالَ كَلَّا ۖ إِنَّ مَعِيَ رَبِّي سَيَهْدِينِ',r:'سورة الشعراء، آية 61 و62',f:'ذكر ابن كثير أن بني إسرائيل لما وصلوا البحر وفرعون وجنوده خلفهم ظنوا أنهم هالكون، فأجابهم موسى بيقين: لن يدركوكم، فإن معي ربي سيدلني على طريق النجاة. وبيّن السعدي أن هذا من كمال يقين موسى وحسن ظنه بربه عند اشتداد الكرب.',s:SRC},
+st:{n:'قصة موسى عليه السلام عند البحر',p:'كان موسى وقومه هاربين من فرعون، فوصلوا البحر أمامهم وجنود فرعون خلفهم، وحسّ قومه إن الطريق مسدود فقالوا: إنا لمدركون.',g:'نتعلم إن اللحظة اللي نحس فيها إن كل الأبواب مقفلة قد تكون بداية الفرج.',s:'ما انهار موسى، قال بيقين «كلا إن معي ربي سيهدين»، فأوحى الله له أن يضرب البحر بعصاه فانفلق، ونجا هو وقومه. أخذ بالأسباب وهو واثق بربه.',r:'سورة الشعراء (61–67)'}});
+P('sad',{em:'حزن',
+pl:['{سمّ|سمّي} شعورك بالاسم: حزن؟ إرهاق؟ خيبة؟ تسمية الشعور تخفف حدته.','{سوّ|سوّي} شي بسيط يرجّعك لنفسك: مشي قصير أو شمس أو كلمة مع شخص قريب، فالعزلة ما تشيل الحزن.'],
+a:{t:'وَذَا النُّونِ إِذ ذَّهَبَ مُغَاضِبًا فَظَنَّ أَن لَّن نَّقْدِرَ عَلَيْهِ فَنَادَىٰ فِي الظُّلُمَاتِ أَن لَّا إِلَٰهَ إِلَّا أَنتَ سُبْحَانَكَ إِنِّي كُنتُ مِنَ الظَّالِمِينَ ۝ فَاسْتَجَبْنَا لَهُ وَنَجَّيْنَاهُ مِنَ الْغَمِّ ۚ وَكَذَٰلِكَ نُنجِي الْمُؤْمِنِينَ',r:'سورة الأنبياء، آية 87 و88',f:'ذكر ابن كثير أن يونس نادى ربه في ظلمات الليل والبحر وبطن الحوت بالتسبيح والاعتراف بالتقصير، فاستجاب الله له وأنجاه من الغم. وخُتمت الآية بوعد عام: «وكذلك ننجي المؤمنين»، أي أن النجاة من الغم ليست خاصة بيونس.',s:SRC},
+st:{n:'قصة يونس عليه السلام',p:'غضب يونس على قومه وتركهم، فركب سفينة وابتلعه الحوت، وصار في ظلمات ثلاث: الليل والبحر وبطن الحوت، وهو حاس بالضيق والندم.',g:'نتعلم إن الضيق مهما اشتد له باب، وإن اللجوء لله مع الاعتراف بالتقصير بلا يأس يفتح الفرج.',s:'دعا يونس بدعاء قصير: «لا إله إلا أنت سبحانك إني كنت من الظالمين»، فنجاه الله من الغم وأخرجه من بطن الحوت.',r:'سورة الأنبياء (87–88) وسورة الصافات (139–148)'}});
+P('loss',{em:'حزن على فقد',
+pl:['{ابكِ|ابكي} إذا {احتجت|احتجتي}، البكاء مو ضعف ولا اعتراض.','{خلك|خليك} قريب من أهلك، و{ادعُ|ادعي} له و{تصدّق|تصدّقي} عنه، و{خذ|خذي} وقتك في الحزن.'],
+a:{t:'قَالَ إِنَّمَا أَشْكُو بَثِّي وَحُزْنِي إِلَى اللَّهِ وَأَعْلَمُ مِنَ اللَّهِ مَا لَا تَعْلَمُونَ',r:'سورة يوسف، آية 86',f:'ذكر ابن كثير أن البثّ شدة الحزن، وأن يعقوب لم يشكُ لأحد من الخلق بل شكا إلى الله وحده، بصبر جميل لا جزع فيه. ومن المعاني اللي ذكرها المفسرون كالسعدي أن الشكوى إلى الله لا تنافي الصبر.',s:SRC},
+st:{n:'قصة يعقوب عليه السلام',p:'فقد يعقوب ابنه يوسف، وبعد سنين فقد ابنه الثاني، وحزن حتى ابيضت عيناه من الحزن وهو كاظم.',g:'نتعلم إن الحزن على من نحب طبيعي، وإنه ما ينافي الصبر والإيمان.',s:'ما جزع يعقوب ولا اعترض، قال «فصبر جميل» وشكا حزنه لله وحده، وقال لأبنائه «ولا تيأسوا من روح الله»، وفي النهاية رجع إليه يوسف ورجع بصره.',r:'سورة يوسف (84–96)'}});
+P('sin',{em:'ندم',
+pl:['الندم الصادق بداية التوبة، بس لا يتحول لجلد للذات. {اترك|اتركي} الذنب و{اندم|اندمي} و{انوِ|انوي} ما {ترجع|ترجعين} له.','{أصلح|أصلحي} اللي {تقدر|تقدرين} تصلحه، و{ارجع|ارجعي} لله بدعاء واستغفار، فالباب مفتوح.'],
+'a':{t:T.sin.a.t,r:T.sin.a.r,f:'ذكر ابن كثير أن الآية دعوة لكل عاصٍ للتوبة والإنابة، وأن الله يغفر لمن تاب مهما كبر ذنبه، فلا ييأس العبد من رحمة الله.',s:T.sin.a.s},
+st:{n:'قصة الرجل الذي قتل تسعة وتسعين نفساً',p:'رجل ارتكب ذنباً عظيماً، قتل تسعاً وتسعين نفساً، وبقي حاس إن ما له رجعة.',g:'نتعلم إن باب التوبة مفتوح مهما كبر الذنب، وإن العائق الحقيقي هو اليأس.',s:'سأل عابداً فقال له ما لك توبة، فقتله وأكمل المئة. ثم سأل عالماً: هل لي من توبة؟ قال: ومن يحول بينك وبين التوبة؟ اذهب لأرض فيها ناس يعبدون الله. فخرج تائباً فأدركه الموت في الطريق، فاختصمت فيه ملائكة الرحمة وملائكة العذاب، فقيس ما بين الأرضين فوُجد أقرب لأرض التوبة، فغُفر له.',r:'رواه البخاري (3470) ومسلم (2766)'}});
+P('lon',{em:'وحدة',
+pl:['{ابدأ|ابدئي} بتواصل صغير: رسالة لشخص {تثق|تثقين} فيه أو سلام على زميل.','{ابحث|ابحثي} عن مجموعة تشاركك اهتمامك مثل التقنية والذكاء الاصطناعي، فالصحبة تنبني من المواقف المشتركة.'],
+a:{t:'إِذْ يَقُولُ لِصَاحِبِهِ لَا تَحْزَنْ إِنَّ اللَّهَ مَعَنَا فَأَنزَلَ اللَّهُ سَكِينَتَهُ عَلَيْهِ',r:'سورة التوبة، آية 40',f:'ذكر ابن كثير أنها في قصة هجرة النبي ﷺ ومعه أبو بكر لما اختبآ في الغار واقترب المشركون. وبيّن السعدي أن «معنا» معية خاصة بالنصر والحفظ، وأن السكينة طمأنينة ينزلها الله على قلب من يشاء.',s:SRC},
+h:{t:'مَا ظَنُّكَ يَا أَبَا بَكْرٍ بِاثْنَيْنِ اللَّهُ ثَالِثُهُمَا',r:'متفق عليه: البخاري (3653)، ومسلم (2381)',f:'قاله النبي ﷺ يطمئن صاحبه في الغار، فمعية الله تغني عن كثرة الناس.'},
+st:{n:'قصة الغار',p:'كان النبي ﷺ وأبو بكر مختبئين في الغار والمشركون يلاحقونهما، وأبو بكر خائف.',g:'نتعلم إن الخوف والوحدة يخفّان لما نتذكر إن الله معنا.',s:'قال أبو بكر: لو نظر أحدهم تحت قدميه لرآنا، فقال النبي ﷺ: ما ظنك باثنين الله ثالثهما، وأنزل الله سكينته، وسلّمهم الله.',r:'سورة التوبة (40)، وصحيح البخاري (3653)'}});
+P('fail',{em:'إحباط',
+pl:['{اكتب|اكتبي} ثلاثة أشياء أنجزتها حتى لو صغيرة، فالدماغ يركز على النقص وينسى الرصيد.','{قارن|قارني} نفسك بنفسك قبل شهر مو بغيرك، و{حوّل|حوّلي} الفشل لسؤال: وش تعلمت؟'],
+a:{t:'كَم مِّن فِئَةٍ قَلِيلَةٍ غَلَبَتْ فِئَةً كَثِيرَةً بِإِذْنِ اللَّهِ ۗ وَاللَّهُ مَعَ الصَّابِرِينَ',r:'سورة البقرة، آية 249',f:'ذكر ابن كثير أن الذين يوقنون بلقاء الله من جند طالوت قالوها لما رأوا كثرة جالوت وجنده. وبيّن السعدي أن النصر بإذن الله مع الصبر واليقين، لا بالعدد وحده.',s:SRC},
+st:{n:'قصة طالوت وداود وجالوت',p:'جيش طالوت صغير قدام جالوت وجنوده الكثيرة، وبعضهم حس إنه ما يقدر.',g:'نتعلم إن الشعور بالضعف مو حكم نهائي، وإن القوة باليقين والثبات.',s:'ثبت المؤمنون ودعوا الله، فقتل داود جالوت بإذن الله، وآتاه الله الملك والحكمة.',r:'سورة البقرة (249–251)'}});
+T.fail.h.f='الحديث يجمع الجهد مع الاستعانة بالله وينهى عن العجز: {ابدأ|ابدئي} بما {تقدر|تقدرين} عليه.';
+P('ang',{em:'غضب',
+pl:['وقت الغضب {اسكت|اسكتي} و{ابتعد|ابتعدي} دقيقتين قبل ما {ترد|تردين}، فالكلمة اللي تنقال ما ترجع.','{لاحظ|لاحظي} وش اللي يشعل غضبك فعلاً: احتياج ما انلبّى؟ تعب؟ معرفته تساعدك تتجنبه.'],
+st:{n:'قصة النبي ﷺ والأعرابي',p:'دخل أعرابي المسجد وبال فيه، فغضب الصحابة وقاموا له.',g:'نتعلم إن الرفق وضبط الغضب أنفع من رد الفعل السريع.',s:'قال النبي ﷺ: دعوه، وأمرهم يصبون على بوله ماء، ثم علّم الأعرابي بهدوء، فانتهى الموقف بلا أذى ولا نفور.',r:'رواه البخاري (220) ومسلم (284)'}});
+
+// ---- gender
+var G=null;
+function fmt(s){return s.replace(/\{([^|}]*)\|([^}]*)\}/g,function(a,m,f){return G==='f'?f:m})}
+function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=fmt(txt);return e}
+function bub(cls,node){var d=document.createElement('div');d.className='cb '+cls;if(typeof node==='string')d.textContent=fmt(node);else d.appendChild(node);$('chat').appendChild(d);$('chat').scrollTop=$('chat').scrollHeight;return d}
+function link(txt,href){var a=el('a','',txt);a.href=href;a.target='_blank';a.rel='noopener';return a}
+function yt(q){return 'https://www.youtube.com/results?search_query='+encodeURIComponent(q)}
+function typing(){var d=el('div','dots');d.innerHTML='<i></i><i></i><i></i>';return bub('bot',d)}
+function say(fn,delay){return new Promise(function(res){var t=typing();setTimeout(function(){t.remove();fn();res()},reduce?0:delay)})}
+function count(e,n,d){d=d||0;if(reduce){e.textContent=n.toFixed(d);return}var t0=performance.now();(function s(t){var k=Math.min(1,(t-t0)/1300);e.textContent=(n*(1-Math.pow(1-k,3))).toFixed(d);if(k<1)requestAnimationFrame(s)})(t0)}
+
+// ---- mood log
+function moods(){return ls('sk_m',[])}
+function logMood(v){var a=moods();a.push({t:Date.now(),v:v});ss('sk_m',a.slice(-200))}
+
+// ---- NLP: tokenize, negation, lexicons
+var NEGW=['تعب','حزن','زعلان','ضيق','خوف','قلق','ضغط','بكيت','وحيد','فاشل','مرهق','احباط','خايف','متوتر','مكتئب','غضبان','ضايع','يأس','ندم','خسر','مخنوق','كره','سيء','سيئ','ضعيف','خيبه','انهار'];
+var POSW=['سعيد','فرحان','مرتاح','انجز','نجح','فخور','حلو','تحسن','ممتن','الحمدلله','متفائل','هادي','احسن','زين','مبسوط','طمان'];
+var NEGATE=['ما','مو','لا','مب','ماني','ليس'];
+var STOP=['في','من','على','الى','عن','انا','هذا','هذي','ذلك','كل','او','و','يا','ان','انه','بس','لين','حتى','مع','كان'];
+function analyze(s,mood){
+var toks=s.split(/[^\u0621-\u064A]+/).filter(function(w){return w&&STOP.indexOf(w)<0});
+var n=0,p=0;
+toks.forEach(function(w,i){
+var isN=NEGW.some(function(r){return w.indexOf(r)>=0}),isP=POSW.some(function(r){return w.indexOf(r)>=0});
+if(!isN&&!isP)return;
+var neg=(NEGATE.indexOf(toks[i-1])>=0)||(NEGATE.indexOf(toks[i-2])>=0&&i>1);
+if(isN){neg?p++:n++}else{neg?n++:p++}});
+var score=p-n+(mood?(mood-3)*.8:0);
+var idx=Math.max(0,Math.min(100,Math.round(50+score*14)));
+return {idx:idx,n:n,p:p,words:toks.length}}
+function classify(s){var best=null,sc=0;Object.keys(T).forEach(function(k){var m=s.match(new RegExp(T[k].k.source,'g'));var c=m?m.length:0;if(c>sc){sc=c;best=T[k]}});return {t:best,hits:sc}}
+
+// ---- cards
+function meter(w,label,val,suf,pct){var d=el('div','meter');var r=el('div','mt');r.appendChild(el('span','',label));var b=el('b');b.textContent='0';r.appendChild(b);d.appendChild(r);
+var bar=el('div','bar');var i=document.createElement('i');bar.appendChild(i);d.appendChild(bar);w.appendChild(d);
+requestAnimationFrame(function(){i.style.width=pct+'%'});count(b,val);if(suf){setTimeout(function(){b.textContent=val+suf},reduce?0:1400)}}
+function analysisCard(an,cl,mood){var w=el('div');w.appendChild(el('span','h','تحليل كلامك'));var m=el('div','meters');
+meter(m,'مؤشر المشاعر (100 = إيجابي)',an.idx,'',an.idx);
+meter(m,'ثقة تحديد الموضوع',Math.min(95,55+cl.hits*15),'%',Math.min(95,55+cl.hits*15));
+meter(m,'كلمات تم تحليلها',an.words,'',Math.min(100,an.words*6));
+w.appendChild(m);
+w.appendChild(el('div','rule','الشعور الأبرز: '+cl.t.em+'. القاعدة المنطبقة: إذا ظهر موضوع «'+cl.t.l+'» و'+(an.idx<50?'المؤشر أقل من 50':'المؤشر 50 فأكثر')+' ← نقترح «'+cl.t.st.n+'».'));return w}
+function storyCard(t){var w=el('div','story');w.appendChild(el('p','','تدري إن مشكلتك هذي صارت لأشخاص قبلك؟ خلني أحكي لك قصة منهم، والغرض منها الإرشاد والتوعية.'));
+w.appendChild(el('span','h',t.st.n));
+var a=el('p');a.appendChild(el('b','','المشكلة: '));a.appendChild(document.createTextNode(fmt(t.st.p)));w.appendChild(a);
+var b=el('p');b.appendChild(el('b','','الغرض من القصة: '));b.appendChild(document.createTextNode(fmt(t.st.g)));w.appendChild(b);
+var c=el('p');c.appendChild(el('b','','الحل: '));c.appendChild(document.createTextNode(fmt(t.st.s)));w.appendChild(c);
+w.appendChild(el('div','src','المصدر: '+t.st.r));return w}
+function ayah(t){var w=el('div');w.appendChild(el('span','h','الآية'));w.appendChild(el('div','nass','﴿'+t.a.t+'﴾'));w.appendChild(el('span','ref',t.a.r));
+w.appendChild(el('span','h','التفسير'));w.appendChild(el('p','',t.a.f));w.appendChild(el('div','src','المصدر: '+t.a.s));return w}
+function hadith(t){var w=el('div');w.appendChild(el('span','h','حديث نبوي'));w.appendChild(el('div','nass','«'+t.h.t+'»'));w.appendChild(el('span','ref',t.h.r));
+w.appendChild(el('span','h','المعنى'));w.appendChild(el('p','',t.h.f));return w}
+function plan(t){var w=el('div');w.appendChild(el('span','h','خطوات عملية'));t.pl.forEach(function(p){w.appendChild(el('p','step',p))});return w}
+function vids(t){var w=el('div');w.appendChild(el('span','h','تبي تسمع عن موضوعك؟'));w.appendChild(el('p','','هذي خيارات بحث في يوتيوب عن الوعي النفسي والذاتي، {اختر|اختاري} اللي يناسبك:'));
+var l=el('div','links');['عزة الغامدي '+t.v,'الهنوف الحقيل '+t.v,t.v+' وعي الذات وإرشاد نفسي'].forEach(function(q){l.appendChild(link(q,yt(q)))});w.appendChild(l);
+w.appendChild(el('div','src','ما قدرت أتحقق من عناوين مقاطع بعينها، فالبحث أضمن من رابط ممكن يكون غلط.'));return w}
+function crisis(strong){var w=el('div');
+if(strong){w.appendChild(el('span','h','أبيك تكون بأمان الحين'));
+w.appendChild(el('p','','إذا قررت تؤذي نفسك أو أنت في خطر الحين، اتصل فوراً بالإسعاف 997 أو الطوارئ 911. وإذا تقدر، كلّم أحد من أهلك أو أصحابك يجي عندك ولا تبقى لحالك. أنت مهم، ومع الدعم هالمشاعر تخف.'))}
+else{w.appendChild(el('span','h','أنا معك'));
+w.appendChild(el('p','','اللي تمر فيه ثقيل، وأقدّر إنك قلته. لو بعض الأحيان تجيك أفكار إنك تؤذي نفسك، تواصل مع أحد الحين: أهلك أو شخص تثق فيه، أو اتصل على الأرقام تحت. وإذا صار عندك خطر قريب، اتصل بالإسعاف 997 فوراً.'))}
+var l=el('div','links');[['997','الإسعاف (الهلال الأحمر)'],['911','الطوارئ'],['937','وزارة الصحة']].forEach(function(n){l.appendChild(link(n[0]+' · '+n[1],'tel:'+n[0]))});w.appendChild(l);return w}
+
+// ---- conversation
+var mood=0,busy=false,chips=$('chips');
+function setChips(items,fn){chips.textContent='';items.forEach(function(it){var b=el('button','chip mood',it[0]);b.type='button';b.onclick=function(){chips.textContent='';fn(it[1])};chips.appendChild(b)})}
+function greet(){var h=new Date().getHours(),w=h<12?'صباح الخير':'مساء الخير';
+return w+' {يا غالي|يا غالية}، حياك الله. كيف كان مزاجك اليوم؟'}
+function askGender(){
+bub('bot','حياك الله، أنا سكينة. عشان أكلمك بالصيغة المناسبة، {أنت|أنت}...');
+setChips([['أنثى','f'],['ذكر','m']],function(g){G=g;ss('sk_g',g);bub('me',g==='f'?'أنثى':'ذكر');askMood()})}
+async function askMood(){
+await say(function(){bub('bot',greet())},800);
+setChips([['😞 متعب','1'],['😕 مو أحسن شي','2'],['😐 عادي','3'],['🙂 زين','4'],['😄 ممتاز','5']],async function(v){mood=+v;logMood(mood);count($('s4'),moodDays());bub('me',['متعب','مو أحسن شي','عادي','زين','ممتاز'][mood-1]);
+var r=mood<=2?'الله يعطيك العافية، واضح إن يومك كان ثقيل. أنا هنا وأسمعك.':mood===3?'تمام، أيام عادية ولها قيمتها.':'ما شاء الله، الله يديم عليك الفرحة!';
+await say(function(){bub('bot',r)},900);await askPrayer()})}
+async function handle(raw){
+if(busy)return;busy=true;chips.textContent='';
+bub('me',raw);var s=norm(raw);
+try{
+if(INTENT.test(s)||CRISIS.test(s)||SOFT.test(s)){await say(function(){bub('bot alert',crisis(INTENT.test(s)))},700);await say(function(){bub('bot','أنا معك. لما تهدأ شوي، {حاول|حاولي} تكتب لي وش اللي صار، وأنا أسمعك.')},900);return}
+if(/شكرا|يعطيك العافيه|الله يجزاك|مشكور/.test(s)&&s.length<40){await say(function(){bub('bot','الله يعافيك ويسعدك. أنا هنا متى ما احتجت تسولف.')},700);return}
+var cl=classify(s);
+if(!cl.t){await say(function(){bub('bot','أبي أفهمك زين. {احكِ|احكي} لي أكثر: وش صار؟ وكيف تحس؟ أو {اختر|اختاري} الأقرب لحالك من تحت.')},900);
+setChips(Object.keys(T).map(function(k){return [T[k].l,k]}),function(k){handle(T[k].l+'، '+T[k].v)});return}
+var t=cl.t,an=analyze(s,mood);
+await say(function(){bub('bot','يا الله يا {غالي|غالية}، فهمت عليك. اللي تمر فيه مو سهل وحقك تحس كذا. خلني أحلل كلامك وأفكر معك.')},1000);
+await say(function(){bub('bot',analysisCard(an,cl,mood))},1100);
+await say(function(){bub('bot',storyCard(t))},1500);
+await say(function(){bub('bot',ayah(t))},1200);
+await say(function(){bub('bot',hadith(t))},1000);
+await say(function(){bub('bot',plan(t))},900);
+await say(function(){bub('bot',vids(t))},800);
+if(an.idx<35){await say(function(){bub('bot','لو حسيت إنك تبي دعم أكثر، زيارة أخصائي نفسي خيار متاح لك، والقرار لك بالكامل.')},900);
+setChips([['أبي أعرف كيف أبدأ','y'],['مو الحين','n']],function(k){bub('me',k==='y'?'أبي أعرف كيف أبدأ':'مو الحين');say(function(){bub('bot',k==='y'?'تقدر تتصل على 937 (وزارة الصحة) توجهك للمكان المناسب، وتسأل عن عيادات الصحة النفسية القريبة منك. ونكمل سوالفنا متى ما {حبيت|حبيتي}.':'ماشي، القرار لك، وأنا معك متى ما احتجت.')},700)})}
+else await say(function(){bub('bot','وأنا هنا نكمل سوالف متى ما {حبيت|حبيتي}.')},900)
+}finally{busy=false}}
+var f=$('f'),ta=$('t');
+f.onsubmit=function(e){e.preventDefault();var v=ta.value.trim();if(!v)return;ta.value='';handle(v)};
+ta.onkeydown=function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();f.requestSubmit()}};
+
+
+//PURE-START
+var EMO={
+'حزن':['حزن','حزين','ابكي','بكيت','دموع','كئيب','مكتئب','زعلان','مكسور','منكسر','فقدت','اشتاق','تعبان','تعبانه','مخنوق','ضيق','ضايق'],
+'قلق':['قلق','متوتر','خايف','خايفه','خوف','توتر','وسواس','ارتباك','مرعوب','مجهول','ضغط'],
+'غضب':['غضب','معصب','عصبي','انفجر','اصرخ','حقد','استفزني','قهر','مقهور','ازعجني','كرهت'],
+'إحباط':['فشل','فاشل','احباط','محبط','يأس','ضعيف','ما اقدر','ما نفع','خسرت','رسبت','ضايع','ما استاهل'],
+'وحدة':['وحيد','وحيده','وحده','ماحد','ما احد','منعزل','غربه','ما يفهمني'],
+'ندم':['ندم','ذنب','اذنبت','معصيه','ضميري','غلطت'],
+'فرح':['سعيد','سعيده','فرحان','فرحانه','مرتاح','مرتاحه','مبسوط','الحمدلله','فخور','ممتن','متفائل','انجزت','نجحت','هادي','طمان','احسن','تحسنت']};
+function emoAnalyze(text,mood){
+var s=norm(text||''),sc={},words=s.split(/[^\u0621-\u064A]+/).filter(Boolean).length;
+Object.keys(EMO).forEach(function(k){sc[k]=0});
+Object.keys(EMO).forEach(function(k){EMO[k].forEach(function(w0){var w=norm(w0),i=-1,from=0;
+while((i=s.indexOf(w,from))>=0){from=i+w.length;
+var pre=s.slice(Math.max(0,i-14),i),post=s.slice(from,from+10),wt=1;
+if(/(جدا|مره|وايد|كثير|قوي)\s*$/.test(pre)||/^\S*\s*(جدا|مره|وايد|كثير)/.test(post))wt=1.6;
+var neg=w.indexOf('ما ')!==0&&/(^|\s)[وف]?(ما|مو|مب|لا|ماني)\s+(\S+\s+)?$/.test(pre);
+if(neg&&k!=='فرح')sc['فرح']+=.6*wt;else if(neg)sc['حزن']+=.6*wt;else sc[k]+=wt}})});
+var neg2=0;Object.keys(sc).forEach(function(k){if(k!=='فرح')neg2+=sc[k]});
+var pos=sc['فرح'],idx=50+50*(pos-neg2)/(pos+neg2+2);
+if(mood)idx+=(mood-3)*7;
+idx=Math.max(0,Math.min(100,Math.round(idx)));
+var tot=pos+neg2,dom=null,mx=0,pct={};
+Object.keys(sc).forEach(function(k){if(sc[k]>mx){mx=sc[k];dom=k}pct[k]=tot?Math.round(sc[k]/tot*100):0});
+return {idx:idx,dom:mx>0?dom:null,pct:pct,sc:sc,words:words,n:neg2,p:pos}}
+var AP=[['واجهتها بهدوء',85,1],['سولفت مع أحد وطلبت مساعدة',90,1],['دعيت وتوكلت وأخذت بالأسباب',90,1],['قسمتها لخطوات وبدأت',95,1],['كتمتها ولا قلت لأحد',30,0],['عصبت وانفعلت',25,0],['هربت منها أو تجاهلتها',35,0],['ما قدرت أسوي شي',30,0],['لسا ما حليتها',40,0]];
+function growthScore(e){return Math.round(e.idx*.5+e.q*.25+Math.min(e.pos,3)/3*100*.15+e.pr*.1)}
+function growthStatus(arr){var n=arr.length;if(n<3)return {k:'wait'};
+var rc=arr.slice(-3),pr=arr.slice(0,-3);if(!pr.length){pr=[arr[0]];rc=arr.slice(1)}
+var avg=function(a){return a.reduce(function(s,v){return s+v},0)/a.length};
+var d=avg(rc)-avg(pr),all=Math.round(avg(arr));
+var k=d>=8?'up':d>=2?'rising':(all>=65&&d>-4)?'stable':'flat';
+var L=arr.slice(-5),m=L.length,sx=0,sy=0,sxy=0,sxx=0;L.forEach(function(v,i){sx+=i;sy+=v;sxy+=i*v;sxx+=i*i});
+var sl=m>1?(m*sxy-sx*sy)/(m*sxx-sx*sx):0;
+return {k:k,d:Math.round(d),avg:all,slope:sl,next:Math.max(0,Math.min(100,Math.round(arr[n-1]+sl)))}}
+//PURE-END
+
+// ---- extra topics
+T.hurt={l:'الخذلان والأذى من الناس',v:'التعامل مع الخذلان والأذى',em:'حزن',k:/خذل|غدر|طعنني|جرحني|اذاني|ظلمني|ظلم|خيانه|غيبه|كلام الناس|تنمر|سخريه|عايرني/,
+pl:['{اسمح|اسمحي} لنفسك تزعل، جرحهم مو شي صغير، بس لا {تسمح|تسمحين} للألم يتحول لحقد يؤذيك أنت.','{حط|حطي} حدودك مع اللي يؤذيك بهدوء، و{ركز|ركزي} على الناس اللي يقدّرونك.'],
+a:{t:'قَالَ لَا تَثْرِيبَ عَلَيْكُمُ الْيَوْمَ ۖ يَغْفِرُ اللَّهُ لَكُمْ ۖ وَهُوَ أَرْحَمُ الرَّاحِمِينَ',r:'سورة يوسف، آية 92',f:'ذكر ابن كثير أن يوسف عليه السلام عفا عن إخوته الذين آذوه لما قدر عليهم ولم يعاتبهم، ودعا لهم بالمغفرة. ومن المعاني اللي ذكرها المفسرون أن العفو عند المقدرة من أعلى مقامات الإحسان.',s:SRC},
+h:{t:'مَا نَقَصَتْ صَدَقَةٌ مِنْ مَالٍ، وَمَا زَادَ اللَّهُ عَبْدًا بِعَفْوٍ إِلَّا عِزًّا',r:'رواه مسلم (2588)',f:'العفو ما يضعف صاحبه، الله يزيده به عزة. وتقدر تعفو وتحط حدودك بنفس الوقت.'},
+st:{n:'قصة يوسف عليه السلام وإخوته',p:'ألقاه إخوته في البئر حسداً وكذبوا على أبيه، وبعدها سنين من الغربة والسجن وهو مظلوم.',g:'نتعلم إن الأذى من الأقربين مؤلم لكنه ما يوقف الخير، وإن الله يعوّض الصابر.',s:'صبر يوسف ولم يحمل الحقد، وحسّن ظنه بربه، ولما صار عزيز مصر وقدر عليهم قال «لا تثريب عليكم اليوم يغفر الله لكم»، ورجع شمل أسرته.',r:'سورة يوسف (8–101)'}};
+T.study={l:'ضغط الدراسة والامتحانات',v:'ضغط الدراسة والامتحانات',em:'قلق',k:/دراسه|امتحان|اختبار|مذاكره|معدل|درجات|جامعه|كليه|تخصص|مقرر|تخرج/,
+pl:['{قسّم|قسّمي} المقرر لأجزاء صغيرة، وجدول لكل يوم هدف واضح بدل ما {تفكر|تفكرين} في الكل.','{ذاكر|ذاكري} جلسات 40 دقيقة وبينها راحة 10 دقايق، و{نم|نامي} كفاية، فالمخ يثبّت المعلومة وقت النوم.'],
+a:{t:'قَالَ رَبِّ اشْرَحْ لِي صَدْرِي ۝ وَيَسِّرْ لِي أَمْرِي ۝ وَاحْلُلْ عُقْدَةً مِّن لِّسَانِي ۝ يَفْقَهُوا قَوْلِي',r:'سورة طه، آية 25 إلى 28',f:'ذكر ابن كثير أن موسى سأل ربه شرح صدره وتيسير أمره قبل ما يواجه فرعون. وبيّن السعدي أن شرح الصدر وتيسير الأمر من أعظم ما يُستعان به على كل مهمة صعبة.',s:SRC},
+h:{t:'مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ بِهِ طَرِيقًا إِلَى الْجَنَّةِ',r:'رواه مسلم (2699)',f:'طلب العلم عبادة، وتعبك فيه له أجر وتيسير من الله.'},
+st:{n:'قصة موسى عليه السلام قبل مواجهة فرعون',p:'كُلّف موسى بمهمة ضخمة وهو حاس بالخوف وبعقدة في لسانه.',g:'نتعلم إن الشعور بالنقص قدام مهمة كبيرة طبيعي، والحل نطلب العون ونأخذ بالأسباب.',s:'دعا بـ «رب اشرح لي صدري ويسر لي أمري»، وطلب أخاه هارون يعينه، فيسّر الله أمره.',r:'سورة طه (24–36)'}};
+T.family={l:'مشاكل مع الأهل',v:'مشاكل الأهل والعلاقة بالوالدين',em:'حزن',k:/اهلي|ابوي|امي|اخوي|اختي|والدي|والدتي|البيت|ما يفهموني|يقارنوني|يتحكمون|اسره/,
+pl:['{خذ|خذي} وقتك قبل ما {ترد|تردين} وقت الخلاف، وبعد ما يهدأ الجو {وضّح|وضّحي} وجهة نظرك بهدوء بعبارات مثل: أنا أحس...','{اطلب|اطلبي} وساطة شخص يحترمه أهلك لو الحوار وقف، وما {تحمّل|تحمّلين} نفسك فوق طاقتها.'],
+a:{t:'وَبِالْوَالِدَيْنِ إِحْسَانًا ... فَلَا تَقُل لَّهُمَا أُفٍّ وَلَا تَنْهَرْهُمَا وَقُل لَّهُمَا قَوْلًا كَرِيمًا',r:'سورة الإسراء، آية 23',f:'ذكر ابن كثير أن الله قرن الإحسان للوالدين بعبادته، وأن النهي عن قول «أف» فيه منع لأدنى أنواع الأذى بالكلام، والأمر بالقول الكريم أدب في الحوار حتى عند الخلاف. وهذا يعينك {تحافظ|تحافظين} على علاقتك بأهلك حتى لو اختلفتوا.',s:SRC},
+h:{t:'أُمُّكَ، ثُمَّ أُمُّكَ، ثُمَّ أُمُّكَ، ثُمَّ أَبُوكَ',r:'متفق عليه: البخاري (5971)، ومسلم (2548)',f:'جواب النبي ﷺ لمن سأله عن أحق الناس بحسن صحبته. وتقدر تعبّر عن رأيك بأدب وتبقى بارّ فيهم.'},
+st:{n:'قصة إبراهيم عليه السلام مع أبيه',p:'دعا إبراهيم أباه للحق بلطف، فرد عليه أبوه بقسوة وهدّده بالرجم وطرده.',g:'نتعلم كيف نتعامل مع الأهل لما نختلف معهم: باللين والاحترام حتى لو ردّوا بقسوة.',s:'ما رد إبراهيم بالمثل، قال «سلام عليك سأستغفر لك ربي» وابتعد بأدب.',r:'سورة مريم (41–48)'}};
+
+// ---- storage + helpers
+function K(k){return USER&&USER.email?k+'@'+USER.email:k}
+function ls(k,d){try{var v=localStorage.getItem(K(k));return v?JSON.parse(v):d}catch(e){return d}}
+function ss(k,v){try{localStorage.setItem(K(k),JSON.stringify(v))}catch(e){}}
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function moodDays(){var s={};moods().forEach(function(m){s[new Date(m.t).toDateString()]=1});ls('sk_d',[]).forEach(function(m){s[new Date(m.t).toDateString()]=1});return Object.keys(s).length}
+var EM2T={'حزن':'sad','قلق':'anx','غضب':'ang','إحباط':'fail','وحدة':'lon','ندم':'sin'};
+function topicScore(parts,emo){var r={};Object.keys(T).forEach(function(k){r[k]=0});
+parts.forEach(function(p){var s=norm(p[0]||'');if(!s)return;Object.keys(T).forEach(function(k){var m=s.match(new RegExp(T[k].k.source,'g'));if(m)r[k]+=m.length*p[1]})});
+if(emo&&emo.dom&&EM2T[emo.dom]&&T[EM2T[emo.dom]])r[EM2T[emo.dom]]+=1.2*(emo.pct[emo.dom]/100+.5);
+var ks=Object.keys(r).sort(function(a,b){return r[b]-r[a]});var top=ks[0],sec=ks[1];
+if(r[top]<=.5)return {t:null,hits:0,conf:0};
+return {t:T[top],key:top,hits:Math.round(r[top]),conf:Math.max(40,Math.min(96,Math.round(45+50*r[top]/(r[top]+r[sec]+1))))}}
+function classify(s){return topicScore([[s,1]],emoAnalyze(s,0))}
+function analyze(s,mood){return emoAnalyze(s,mood)}
+function analysisCard(an,cl,mood){var w=el('div');w.appendChild(el('span','h','تحليل كلامك'));var m=el('div','meters');
+meter(m,'مؤشر المشاعر (100 = إيجابي)',an.idx,'',an.idx);
+Object.keys(an.pct).filter(function(k){return an.pct[k]>0}).sort(function(a,b){return an.pct[b]-an.pct[a]}).slice(0,3).forEach(function(k){meter(m,'شعور: '+k,an.pct[k],'%',an.pct[k])});
+meter(m,'ثقة تحديد الموضوع',cl.conf,'%',cl.conf);w.appendChild(m);
+w.appendChild(el('div','rule','الشعور الأبرز: '+(an.dom||'غير واضح')+'. القاعدة المنطبقة: إذا ظهر موضوع «'+cl.t.l+'» و'+(an.idx<50?'المؤشر أقل من 50':'المؤشر 50 فأكثر')+' ← نقترح «'+cl.t.st.n+'».'));return w}
+
+// ---- prayer data
+var PN=['الفجر','الظهر','العصر','المغرب','العشاء'];
+function dk(t){var d=new Date(t||Date.now());return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()}
+function prDay(k){var p=ls('sk_p',{});return p[k]||[0,0,0,0,0]}
+function prSet(k,a){var p=ls('sk_p',{});p[k]=a;ss('sk_p',p)}
+function prPct(k){return Math.round(prDay(k).reduce(function(s,v){return s+v},0)/5*100)}
+function toggles(box){box.textContent='';var a=prDay(dk());PN.forEach(function(n,i){var b=el('button','chip'+(a[i]?' on':''),n);b.type='button';b.setAttribute('aria-pressed',a[i]?'true':'false');
+b.onclick=function(){var c=prDay(dk());c[i]=c[i]?0:1;prSet(dk(),c);syncP()};box.appendChild(b)})}
+function allDone(k){return prDay(k).every(function(v){return v})}
+function streak(){var d=new Date();if(!allDone(dk(d)))d.setDate(d.getDate()-1);var n=0;while(allDone(dk(d))){n++;d.setDate(d.getDate()-1)}return n}
+function syncP(){toggles($('dp'));toggles($('pt'));var s=$('pstreak');if(s.textContent!==String(streak()))count(s,streak());renderPlan()}
+function faith(){var w=el('div');
+w.appendChild(el('span','h','تذكير يطمّن القلب'));
+w.appendChild(el('p','','{تذكّر|تذكّري}: الله أكبر من همّك وحزنك وضيقك وكربك ومشاكلك، وهو قادر يغيّر موازين الحياة كلها عشانك في لمح البصر. المشكلة تكبر في عينك على قد ما تعطيها، والله أكبر منها. {خذ|خذي} بالأسباب، وأحسن ظنك فيه، وريّح قلبك.'));
+w.appendChild(el('div','nass','﴿وَمَا أَمْرُنَا إِلَّا وَاحِدَةٌ كَلَمْحٍ بِالْبَصَرِ﴾'));w.appendChild(el('span','ref','سورة القمر، آية 50'));
+w.appendChild(el('p','','ذكر المفسرون كابن كثير أن أمره سبحانه إذا أراد شيئاً نافذ لا يحتاج إلى معالجة ولا مدة.'));
+w.appendChild(el('span','h','الدنيا دار ابتلاء'));
+w.appendChild(el('p','','الدنيا دار اختبار، والمؤمن الحقيقي هو اللي يفوز، ويعرف إن العاقبة للمتقين، ويرضى بقدر الله خيره وشره.'));
+w.appendChild(el('div','nass','﴿الَّذِي خَلَقَ الْمَوْتَ وَالْحَيَاةَ لِيَبْلُوَكُمْ أَيُّكُمْ أَحْسَنُ عَمَلًا﴾'));w.appendChild(el('span','ref','سورة الملك، آية 2'));
+w.appendChild(el('p','','ذكر بعض المفسرين أن «أحسن عملاً» أخلصه لله وأصوبه على السنة. والإيمان بالقدر خيره وشره من أركان الإيمان كما في حديث جبريل (رواه مسلم 8).'));
+w.appendChild(el('div','src','المصدر: تفسير القرآن العظيم لابن كثير، وصحيح مسلم'));return w}
+function effect(){var w=el('div');w.appendChild(el('span','h','أثر الصلاة على نفسك'));
+w.appendChild(el('p','','الصلاة خمس محطات في اليوم توقّفك عن الركض وترجّعك لنفسك وربك. كثير ممن واظبوا عليها لاحظوا انتظام يومهم، وسكينة في قلوبهم، وقدرة أكبر على ضبط النفس.'));
+w.appendChild(el('div','nass','﴿يَا أَيُّهَا الَّذِينَ آمَنُوا اسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ ۚ إِنَّ اللَّهَ مَعَ الصَّابِرِينَ﴾'));w.appendChild(el('span','ref','سورة البقرة، آية 153'));
+w.appendChild(el('p','','بيّن السعدي أن الصبر والصلاة من أعظم ما يُستعان به على الشدائد.'));
+w.appendChild(el('div','nass','«أَرَأَيْتُمْ لَوْ أَنَّ نَهَرًا بِبَابِ أَحَدِكُمْ يَغْتَسِلُ فِيهِ كُلَّ يَوْمٍ خَمْسَ مَرَّاتٍ، هَلْ يَبْقَى مِنْ دَرَنِهِ شَيْءٌ؟»'));w.appendChild(el('span','ref','متفق عليه: البخاري (528)، ومسلم (667)'));
+w.appendChild(el('p','','قال النبي ﷺ: فذلك مثل الصلوات الخمس يمحو الله بهن الخطايا.'));return w}
+var TIPS7=['{ابدأ|ابدئي} بفرض واحد {تثبّته|تثبّتيه} أول، وبعده زد.','{حط|حطي} منبّه قبل الأذان بخمس دقايق.','{صلّ|صلّي} أول الوقت و{لاحظ|لاحظي} الفرق في راحتك.','{جهّز|جهّزي} مكان هادي للصلاة وخله جاهز.','{اربط|اربطي} كل صلاة بدعاء خاص فيك.','{سجّل|سجّلي} شعورك بعد الصلاة.','{كافئ|كافئي} نفسك عند كل أسبوع التزام.'];
+function renderPlan(){var pl=ls('sk_plan',null),b=$('pinfo');b.textContent='';$('pstart').textContent=pl?'إنهاء الخطة':'ابدأ الخطة';$('pd').disabled=!!pl;if(!pl){b.appendChild(el('p','','{اختر|اختاري} المدة اللي تناسبك وابدأ، وكل يوم علّم على فروضك.'));return}
+var s=new Date(pl.start);s.setHours(0,0,0,0);var now=new Date();now.setHours(0,0,0,0);var dayN=Math.floor((now-s)/864e5)+1,done=0;
+for(var i=0;i<Math.min(dayN,pl.days);i++){var d=new Date(s);d.setDate(d.getDate()+i);if(allDone(dk(d)))done++}
+b.appendChild(el('p','',dayN>pl.days?'خلصت خطتك! ما شاء الله عليك. سجّل أسفل التغيير اللي لاحظته.':'اليوم '+dayN+' من '+pl.days+'، وأتمّيت فيها '+done+' يوم بفروض كاملة.'));
+var bar=el('div','pb');var i2=document.createElement('i');bar.appendChild(i2);b.appendChild(bar);requestAnimationFrame(function(){i2.style.width=Math.min(100,done/pl.days*100)+'%'});
+if(dayN<=pl.days)b.appendChild(el('p','step','نصيحة اليوم: '+TIPS7[(dayN-1)%7]))}
+var DUAS=[
+['رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ','سورة البقرة، آية 201','دعاء جامع لخير الدنيا والآخرة، وكان النبي ﷺ يكثر منه (متفق عليه).'],
+['رَبِّ اشْرَحْ لِي صَدْرِي ۝ وَيَسِّرْ لِي أَمْرِي','سورة طه، آية 25 و26','لانشراح الصدر وتيسير الأمور، دعا به موسى عليه السلام.'],
+['حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ','سورة آل عمران، آية 173','لتقوية التوكل عند الشدة.'],
+['قُل لَّن يُصِيبَنَا إِلَّا مَا كَتَبَ اللَّهُ لَنَا هُوَ مَوْلَانَا ۚ وَعَلَى اللَّهِ فَلْيَتَوَكَّلِ الْمُؤْمِنُونَ','سورة التوبة، آية 51','للرضا بقدر الله خيره وشره، وإن كل شي بتقديره.'],
+['اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَالْعَجْزِ وَالْكَسَلِ','رواه البخاري (6369)','للهم والحزن وضعف الهمة.'],
+['لَا إِلَهَ إِلَّا أَنتَ سُبْحَانَكَ إِنِّي كُنتُ مِنَ الظَّالِمِينَ','سورة الأنبياء، آية 87، ورواه الترمذي (3505)','دعاء ذي النون للكرب والغم.'],
+['اللَّهُمَّ رَحْمَتَكَ أَرْجُو فَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ، وَأَصْلِحْ لِي شَأْنِي كُلَّهُ، لَا إِلَهَ إِلَّا أَنْتَ','رواه أبو داود (5090)، وحسّنه الألباني','لإصلاح الشأن كله والاعتماد على الله.']];
+function renderPrayerStatic(){
+$('peffect').textContent='';$('pfaith').textContent='';$('duas').textContent='';$('peffect').appendChild(effect());$('pfaith').appendChild(faith());
+var d=$('duas');DUAS.forEach(function(x){var de=el('details','n');var sm=el('summary');sm.appendChild(el('span','',x[2]));de.appendChild(sm);var bd=el('div','body');bd.appendChild(el('div','nass','«'+x[0]+'»'));bd.appendChild(el('span','ref',x[1]));de.appendChild(bd);d.appendChild(de)});
+var ba=ls('sk_ba',{});$('pb').value=ba.b||'';$('pa').value=ba.a||'';
+$('psave').onclick=function(){ss('sk_ba',{b:$('pb').value,a:$('pa').value,t:Date.now()});$('pdone').textContent='انحفظ';setTimeout(function(){$('pdone').textContent=''},2000)};
+$('pstart').onclick=function(){if(ls('sk_plan',null))ss('sk_plan',null);else ss('sk_plan',{start:Date.now(),days:+$('pd').value});renderPlan()}}
+
+// ---- diary
+var dMood=0,dAp=-1;
+function singleChips(box,items,on){box.textContent='';items.forEach(function(it,i){var b=el('button','chip',it);b.type='button';b.setAttribute('aria-pressed','false');b.onclick=function(){[].forEach.call(box.children,function(c,j){c.classList.toggle('on',j===i);c.setAttribute('aria-pressed',j===i?'true':'false')});on(i)};box.appendChild(b)})}
+var MN=['😞 متعب','😕 مو أحسن شي','😐 عادي','🙂 زين','😄 ممتاز'];
+var MOTIV=['أنت إنسان له قيمة عالية، وتعبك ما ينقص منها شي.','قادر تغيّر نفسك للأفضل، وكل يوم {تكتب|تكتبين} فيه و{تفهم|تفهمين} نفسك هو خطوة.','التعثر مو نهاية الطريق، هو جزء منه.','أنت أقوى مما {تظن|تظنين}، واللي صبرت عليه لين اليوم يثبت هالشي.'];
+var SOFT=/تعبت من الحياه|ما ابي اكمل|ابي ارتاح من الدنيا|الحياه ما لها معنى/;
+function dcard(box,node,cls){var c=el('div','card dc'+(cls?' '+cls:''));c.appendChild(node);box.appendChild(c);return c}
+function doctor(){var w=el('div');w.appendChild(el('span','h','لو حبيت دعم أكثر'));
+w.appendChild(el('p','','أحياناً الواحد يحتاج أحد متخصص يسمعه ويساعده، وزيارة أخصائي نفسي أو طبيب نفسي خيار متاح لك لو حسيت إنه يفيدك. القرار لك بالكامل، وإذا ما تبي الحين فعادي ونكمل مع بعض.'));
+var l=el('div','links'),out=el('div','src');out.hidden=true;
+var a=el('button','chip','أبي أعرف كيف أبدأ'),b=el('button','chip','مو الحين');a.type='button';b.type='button';
+a.onclick=function(){out.hidden=false;out.textContent='تقدر تتصل على 937 (وزارة الصحة) توجهك للمكان المناسب، وتسأل عن عيادات الصحة النفسية القريبة منك.'};
+b.onclick=function(){out.hidden=false;out.textContent='ماشي، القرار لك، وأنا معك متى ما احتجت.'};
+l.appendChild(a);l.appendChild(b);w.appendChild(l);w.appendChild(out);return w}
+function approachCard(ap,t){var w=el('div');w.appendChild(el('span','h','تقييم طريقتك في الحل'));
+if(ap<0){w.appendChild(el('p','','ما اخترت طريقة تعاملك مع الموقف، بس مو مشكلة. لو {حبيت|حبيتي} تحلل معي موقفك، {اختر|اختاري} طريقتك المرة الجاية وأعطيك رأيي.'));return w}
+var a=AP[ap];
+if(a[2]){w.appendChild(el('p','','ما شاء الله عليك! طريقتك في حل مشكلتك «'+a[0]+'» طريقة حلوة تدل على وعي ونضج. {ثبّت|ثبّتي} عليها وكررها المرة الجاية، وتراك {تستاهل|تستاهلين} التقدير على اللي سويته.'))}
+else{w.appendChild(el('p','','أقدّر صدقك وإنك كتبتها، وهذا بحد ذاته خطوة. أحياناً ما نتصرف أحسن تصرف وقت الضيق، وهذا ما يقلل من قيمتك. بس أقترح عليك طريقة أفضل المرة الجاية:'));
+(t?t.pl:['{خذ|خذي} نفس عميق وسمّ شعورك بالاسم.','{كلم|كلمي} شخص تثق فيه قبل ما تقرر.']).forEach(function(p){w.appendChild(el('p','step',p))})}
+return w}
+function renderResult(e,an,cl,all){var box=$('dres');box.textContent='';
+var nn=norm(all),lv=INTENT.test(nn)?2:(CRISIS.test(nn)||SOFT.test(nn))?1:0;if(lv)dcard(box,crisis(lv===2),'alert');
+var s=el('div');s.appendChild(el('span','h','تقييم يومك'));
+s.appendChild(el('p','',(an.idx>=70?'يومك حلو ما شاء الله!':an.idx>=50?'يومك عادي فيه شد وجذب، وهذا طبيعي.':an.idx>=35?'يومك كان ثقيل شوي، وأنا معك.':'يومك كان صعب، وأقدّر إنك {فضفضت|فضفضتي}.')+' '+pick(MOTIV)));
+var ms=el('div','meters');meter(ms,'مؤشر المشاعر (100 = إيجابي)',an.idx,'',an.idx);
+Object.keys(an.pct).filter(function(k){return an.pct[k]>0}).sort(function(a,b){return an.pct[b]-an.pct[a]}).slice(0,3).forEach(function(k){meter(ms,'شعور: '+k,an.pct[k],'%',an.pct[k])});
+meter(ms,'درجة نموّك اليوم',e.gs,'',e.gs);s.appendChild(ms);dcard(box,s);
+dcard(box,approachCard(e.ap,cl.t));
+var f=e.f,n=el('div');n.appendChild(el('span','h','ملاحظاتي على اللي كتبته'));var any=false;
+if(f.d4){any=true;n.appendChild(el('p','','إيجابياتك ثمينة، لا {تقلل|تقللين} منها، و{ارجع|ارجعي} لها وقت ما تحس بنفسك صغير.'))}
+if(f.d5){any=true;n.appendChild(el('p','','سلبياتك مو حكم عليك، هي معلومات تعرفك وش يستنزفك. {فرّق|فرّقي} بين اللي بيدك واللي مو بيدك.'))}
+if(f.d6){any=true;n.appendChild(el('p','','الخوف يكبر لما يبقى بالراس. {اكتب|اكتبي} أسوأ شي ممكن يصير، وبعده وش {تسوي|تسوين} لو صار، وبتلقى نفسك أقوى مما {تتخيل|تتخيلين}.'))}
+if(f.d7){any=true;n.appendChild(el('p','','حلو إنك واعي باللي تبي تغيّره، وهذا نص الطريق. {اختر|اختاري} خطوة وحدة صغيرة تسويها بكرة، والتغيير يجي بالتكرار.'))}
+if(any)dcard(box,n);
+if(cl.t){var t=cl.t;dcard(box,storyCard(t));dcard(box,ayah(t));dcard(box,hadith(t));if(e.ap<0||!AP[e.ap][2])dcard(box,plan(t));dcard(box,vids(t))}
+dcard(box,faith());
+var arr=ls('sk_d',[]).map(function(x){return x.gs}),g=growthStatus(arr);
+if(g.k!=='wait'){var pr=el('div');pr.appendChild(el('span','h','توقّع نموّك'));pr.appendChild(el('p','','لو استمريت بنفس الأسلوب، متوقع درجة نموّك الجاية قريبة من '+g.next+'. هذا توقع تقريبي مبني على مذكراتك، مو تشخيص.'));dcard(box,pr)}
+var last=ls('sk_d',[]).slice(-3);
+if(!lv&&(an.idx<35||(last.length===3&&last.every(function(x){return x.gs<40}))))dcard(box,doctor());
+box.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'})}
+function renderList(){var es=ls('sk_d',[]),l=$('dlist');l.textContent='';
+if(!es.length){l.appendChild(el('div','card note','ما كتبت شي للحين. أول ملاحظة تكتبها بتظهر هنا.'));return}
+es.slice().reverse().forEach(function(e){var d=el('details','n'),sm=el('summary');
+sm.appendChild(el('span','',MN[e.mood-1].split(' ')[0]));sm.appendChild(el('span','',new Date(e.t).toLocaleDateString('ar-SA',{weekday:'long',day:'numeric',month:'long'})));
+sm.appendChild(el('small','','نموّ '+e.gs+(e.dom?' · '+e.dom:'')));d.appendChild(sm);
+var b=el('div','body');[['d1','يومي'],['d2','أصعب موقف'],['d3','وش سويت'],['d4','إيجابياتي'],['d5','سلبياتي'],['d6','مخاوفي'],['d7','أبي أغيّر']].forEach(function(p){if(e.f[p[0]]){var q=el('p');q.appendChild(el('b','',p[1]+': '));q.appendChild(document.createTextNode(e.f[p[0]]));b.appendChild(q)}});
+var x=el('button','del','حذف');x.type='button';x.onclick=function(){ss('sk_d',ls('sk_d',[]).filter(function(z){return z.t!==e.t}));renderList();renderGrowth();count($('s4'),moodDays())};b.appendChild(x);d.appendChild(b);l.appendChild(d)})}
+function saveEntry(){
+var f={};['d1','d2','d3','d4','d5','d6','d7'].forEach(function(k){f[k]=$(k).value.trim()});
+if(!dMood){$('derr').textContent='اختر كيف حالك الحين أول.';return}
+if(!Object.keys(f).some(function(k){return f[k]})){$('derr').textContent='اكتب شي بسيط على الأقل، ولو سطر.';return}
+$('derr').textContent='';
+var all=Object.keys(f).map(function(k){return f[k]}).join(' ');
+var an=emoAnalyze(all,dMood),cl=topicScore([[f.d1,1],[f.d2,2],[f.d3,1],[f.d4,.5],[f.d5,1],[f.d6,1.5],[f.d7,1]],an);
+var q=dAp>=0?AP[dAp][1]:50,pos=f.d4?f.d4.split(/[\n،,.؛]+/).filter(function(x){return x.trim().length>2}).length:0;
+var gs=growthScore({idx:an.idx,q:q,pos:pos,pr:prPct(dk())});
+var e={t:Date.now(),mood:dMood,f:f,idx:an.idx,dom:an.dom,gs:gs,key:cl.key||null,ap:dAp};
+var es=ls('sk_d',[]);es.push(e);ss('sk_d',es.slice(-120));
+renderResult(e,an,cl,all);renderList();renderGrowth();count($('s4'),moodDays());
+['d1','d2','d3','d4','d5','d6','d7'].forEach(function(k){$(k).value=''});
+dMood=0;dAp=-1;singleChips($('dm'),MN,function(i){dMood=i+1});singleChips($('da'),AP.map(function(a){return a[0]}),function(i){dAp=i})}
+
+// ---- growth
+var GL={up:['تحسّن واضح','up'],rising:['في طور التحسن','up'],stable:['ثابت ومستقر',''],flat:['لم يتحسن بعد','flat']};
+var GT={up:'ما شاء الله! الفرق بين أول أيامك وآخرها واضح. استمر، وكل خطوة تسويها لها أثر.',rising:'تحسنك بدأ يبان، بطيء بس ثابت. كمّل بنفس الأسلوب.',stable:'حالتك مستقرة وجيدة، حافظ على اللي يريّحك.',flat:'وهذا ما يعني إنك فاشل، فالتغيير النفسي ياخذ وقت وفيه تذبذب. جرّب تغيّر طريقة تعاملك مع مشاكلك، و{ركز|ركزي} على الصلاة والنوم والسوالف مع الناس، ولو حسيت إنك تبي دعم أكثر فالأخصائي النفسي خيار متاح لك.'};
+function renderGrowth(){var es=ls('sk_d',[]),box=$('gbox');box.textContent='';
+if(es.length<3){box.appendChild(el('div','card','سجّل 3 مذكرات على الأقل عشان يظهر لك رسم نموّك النفسي وتقارن بين أيامك. عندك الحين '+es.length+'.'));return}
+var arr=es.map(function(e){return e.gs}),g=growthStatus(arr);
+var top=el('div','stats');
+[['معدل نموّك',g.avg],['عدد المذكرات',es.length],['الفرق بين أول أيامك وآخرها',g.d]].forEach(function(x){var c=el('div','card stat'),b=el('b');b.textContent='0';c.appendChild(b);c.appendChild(el('span','',x[0]));top.appendChild(c);count(b,x[1])});
+box.appendChild(top);
+var c=el('div','card mt2');var st=el('span','badge '+GL[g.k][1],GL[g.k][0]);c.appendChild(st);c.appendChild(el('p','',GT[g.k]));c.appendChild(el('p','','توقع درجتك الجاية: قريبة من '+g.next+' (تقريبي، مو تشخيص).'));
+var L=es.slice(-14),W=320,H=170,pd=26,NS='http://www.w3.org/2000/svg';
+var svg=document.createElementNS(NS,'svg');svg.setAttribute('viewBox','0 0 '+W+' '+H);svg.setAttribute('class','chart');svg.setAttribute('role','img');svg.setAttribute('aria-label','رسم بياني لدرجة نموك النفسي');
+svg.innerHTML='<defs><linearGradient id="gg" x1="1" x2="0"><stop offset="0" stop-color="#9b8cff"/><stop offset="1" stop-color="#6fe3ff"/></linearGradient></defs>';
+[0,50,100].forEach(function(v){var y=H-pd-(H-2*pd)*v/100;var ln=document.createElementNS(NS,'line');ln.setAttribute('x1',pd);ln.setAttribute('x2',W-pd);ln.setAttribute('y1',y);ln.setAttribute('y2',y);ln.setAttribute('stroke','#2b2852');svg.appendChild(ln);var t=document.createElementNS(NS,'text');t.setAttribute('x',4);t.setAttribute('y',y+3);t.textContent=v;svg.appendChild(t)});
+var ya=H-pd-(H-2*pd)*g.avg/100,av=document.createElementNS(NS,'line');av.setAttribute('x1',pd);av.setAttribute('x2',W-pd);av.setAttribute('y1',ya);av.setAttribute('y2',ya);av.setAttribute('stroke','#e8c987');av.setAttribute('stroke-dasharray','4 4');svg.appendChild(av);
+var pts=L.map(function(e,i){return [W-pd-(L.length>1?(W-2*pd)*i/(L.length-1):0),H-pd-(H-2*pd)*e.gs/100]});
+var path=document.createElementNS(NS,'path');path.setAttribute('class','ln');path.setAttribute('d',pts.map(function(p,i){return (i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)}).join(' '));svg.appendChild(path);
+pts.forEach(function(p){var ci=document.createElementNS(NS,'circle');ci.setAttribute('cx',p[0]);ci.setAttribute('cy',p[1]);ci.setAttribute('r',4);ci.setAttribute('fill','#6fe3ff');svg.appendChild(ci)});
+c.appendChild(svg);c.appendChild(el('div','src','الخط المتقطع: معدلك. الرسم من الأقدم (يمين) إلى الأحدث (يسار). درجة النمو تجمع مشاعرك وطريقة حلك للمشاكل وإيجابياتك وفروضك.'));box.appendChild(c);
+if(!reduce){var len=path.getTotalLength();path.style.strokeDasharray=len;path.style.strokeDashoffset=len;path.getBoundingClientRect();path.style.transition='stroke-dashoffset 1.6s ease';path.style.strokeDashoffset=0}}
+
+// ---- chat: prayer question
+async function askPrayer(){
+await say(function(){bub('bot','صليت فروضك اليوم؟')},900);
+var lab={a:'صليت كل الفروض',s:'صليت بعضها',n:'للحين ما صليت',r:'أبي أتكلم عن علاقتي بربي'};
+setChips([[lab.a,'a'],[lab.s,'s'],[lab.n,'n'],[lab.r,'r']],async function(k){bub('me',lab[k]);
+var r={a:'ما شاء الله، تبارك الله! المحافظة على الصلاة نور وراحة، وأثرها يبان على نفسيتك. {ثبّت|ثبّتي} عليها.',
+s:'الله يتقبل منك. خطوة خطوة، ولا {تجلد|تجلدين} نفسك، وكل فرض تصليه فرق. تلقى في قسم «صلاتي» خطة تدريجية.',
+n:'ما عليك، عادي، والباب مفتوح دايم. {ابدأ|ابدئي} بأقرب فرض، وهذا أحلى وقت تبدأ فيه، وتقدر تسوي لك خطة في قسم «صلاتي».',
+r:'الله يقرّب قلبك له. سولف معي: وش اللي تحسه تجاه علاقتك بربك؟ وتلقى في قسم «صلاتي» أدعية تقوّي الإيمان والرضا بالقدر.'}[k];
+await say(function(){bub('bot',r)},1000);
+await say(function(){bub('bot','ويلا سولف معي، وش اللي في خاطرك أو يضايقك؟')},800)})}
+
+
+// ---- ask: prophets' stories + smart answers
+var STORIES={
+adam:{r:/(^|\s)ادم($|\s)|حواء/,n:'قصة آدم وحواء عليهما السلام',
+t:['خلق الله آدم عليه السلام من طين، ونفخ فيه من روحه، وأمر الملائكة بالسجود له سجود تحية وتكريم، فسجدوا إلا إبليس، استكبر وقال إنه خير منه لأنه خُلق من نار. فطرده الله من رحمته، وأقسم إبليس أن يغوي بني آدم.','أسكن الله آدم وزوجه حواء الجنة، وأباح لهما كل ما فيها إلا شجرة واحدة نهاهما عن الأكل منها (ولم يحدد القرآن نوعها). فوسوس لهما الشيطان وزيّن لهما الأكل منها وقاسمهما إنه لهما من الناصحين، فأكلا فبدت لهما سوآتهما، وصارا يغطيانها بورق الجنة.','ندم آدم وحواء ولم يتكبرا مثل إبليس، بل قالا: ﴿رَبَّنَا ظَلَمْنَا أَنفُسَنَا وَإِن لَّمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ﴾، وهي الكلمات التي ذكر كثير من المفسرين أنها التي تلقاها آدم من ربه. فتاب الله عليهما، ثم أهبطهما إلى الأرض لتكون محل خلافتهما وعمارتهما، ووعدهما بالهداية لمن اتبعها.'],
+s:'سورة البقرة (30–39)، وسورة الأعراف (11–27)، وسورة طه (115–123)، وتفسير ابن كثير، وقصص الأنبياء لابن كثير',
+g:'بيان بداية الخلق، وأصل العداوة بين الإنسان والشيطان، وأن الخطأ من طبيعة البشر لكن الفرق في الرجوع بالتوبة بدل الكبر والإصرار.',
+f:['كل إنسان يخطئ، والمهم ترجع وتتوب بسرعة ولا تتكبر.','الشيطان عدو واضح، وأول أسلحته الوسوسة والتزيين، فاحذر مداخله.','باب التوبة مفتوح، ومن تاب تاب الله عليه.']},
+nuh:{r:/(^|\s)نوح|الطوفان/,n:'قصة نوح عليه السلام',
+t:['أرسل الله نوحاً عليه السلام إلى قومه لما انتشر فيهم الشرك وعبادة الأصنام، فدعاهم ليلاً ونهاراً، سراً وجهراً، ومكث فيهم ﴿أَلْفَ سَنَةٍ إِلَّا خَمْسِينَ عَامًا﴾. فما آمن معه إلا قليل، وسخر منه كبراء قومه واتهموه بالضلال.','لما يئس من إيمانهم أوحى الله إليه أنه لن يؤمن منهم إلا من قد آمن، وأمره أن يصنع السفينة. فصنعها وقومه يمرون عليه ويسخرون، وهو يجيبهم بثقة: إن تسخروا منا فإنا نسخر منكم كما تسخرون.','جاء أمر الله وفار التنور، فحمل نوح في السفينة من آمن معه ومن كل زوجين اثنين، وانهمر الماء من السماء وتفجرت الأرض عيوناً. وكان ابنه ممن لم يركب، فنادى نوح ربه في ابنه، فبيّن الله له أنه ليس من أهله لأنه عمل غير صالح. ثم استقرت السفينة على الجودي، وقيل: يا نوح اهبط بسلام منا وبركات عليك.'],
+s:'سورة هود (25–49)، وسورة نوح، وسورة العنكبوت (14)، وتفسير ابن كثير، وقصص الأنبياء لابن كثير',
+g:'تثبيت أهل الحق على الصبر في الدعوة، وبيان أن النجاة بالإيمان والعمل لا بالنسب والقرابة.',
+f:['الصبر الطويل على الخير له عاقبة حسنة مهما كثر المستهزئون.','لا تغتر بكثرة الناس، فالحق ما وافق أمر الله.','النجاة بالإيمان والعمل الصالح، لا بالأنساب.']},
+ibrahim:{r:/ابراهيم|خليل الله/,n:'قصة إبراهيم عليه السلام',
+t:['ولد إبراهيم عليه السلام في قوم يعبدون الأصنام، حتى أبوه كان منهم، فدعا أباه بلطف: ﴿يَا أَبَتِ لِمَ تَعْبُدُ مَا لَا يَسْمَعُ وَلَا يُبْصِرُ﴾. ولما أصروا كسّر أصنامهم إلا كبيرها، ولما سألوه قال: اسألوه إن كانوا ينطقون، فرجعوا إلى أنفسهم وعرفوا عجز آلهتهم، ثم قالوا: ﴿لَقَدْ عَلِمْتَ مَا هَٰؤُلَاءِ يَنطِقُونَ﴾.','غضب قومه فأوقدوا ناراً عظيمة وألقوه فيها، فأمر الله النار: ﴿يَا نَارُ كُونِي بَرْدًا وَسَلَامًا عَلَىٰ إِبْرَاهِيمَ﴾، فخرج سالماً وهاجر بدينه.','وابتلاه الله بأمر عظيم، فرأى في المنام أنه يذبح ابنه (وهو إسماعيل على الراجح عند أكثر المفسرين)، ورؤيا الأنبياء وحي. فلما أخبره قال الابن: ﴿يَا أَبَتِ افْعَلْ مَا تُؤْمَرُ ۖ سَتَجِدُنِي إِن شَاءَ اللَّهُ مِنَ الصَّابِرِينَ﴾. فلما أسلما وتلّه للجبين فداه الله بذبح عظيم. ثم رفع مع إسماعيل قواعد البيت الحرام ودعا: ﴿رَبَّنَا تَقَبَّلْ مِنَّا ۖ إِنَّكَ أَنتَ السَّمِيعُ الْعَلِيمُ﴾.'],
+s:'سورة الأنبياء (51–70)، وسورة الصافات (83–113)، وسورة البقرة (124–127)، وتفسير ابن كثير، وقصص الأنبياء لابن كثير',
+g:'بيان أصل التوحيد، وتقديم قدوة في اللين مع الأهل، والثبات على الحق، والتسليم لأمر الله.',
+f:['ادع للحق بلطف حتى مع أقرب الناس.','التوكل على الله يحميك حين تضيق الأسباب.','التسليم لأمر الله والصبر عند الابتلاء يرفعان صاحبهما.']},
+yusuf:{r:/يوسف/,n:'قصة يوسف عليه السلام',
+t:['رأى يوسف عليه السلام وهو صغير رؤيا: أحد عشر كوكباً والشمس والقمر له ساجدين، فنصحه أبوه يعقوب ألا يقصها على إخوته. لكن إخوته حسدوه لحب أبيهم له، فاحتالوا عليه وألقوه في البئر، وجاؤوا أباهم بقميص عليه دم كذب، فصبر يعقوب صبراً جميلاً.','التقطته قافلة وبيع في مصر، فعاش في بيت العزيز. وراودته امرأة العزيز عن نفسه فاستعصم وقال: ﴿مَعَاذَ اللَّهِ﴾، وفرّ منها، فظهرت براءته لكنه سُجن سنين. وفي السجن عبّر رؤى صاحبيه ودعاهما إلى توحيد الله.','ثم رأى الملك رؤيا لم يفهمها أحد، فعبّرها يوسف وأشار بخطة لمواجهة سنين الجدب، فأخرجه الملك وجعله على خزائن الأرض. وبعد سنين جاء إخوته يطلبون الطعام فعرفهم وهم لا يعرفونه، ثم كشف لهم نفسه وعفا عنهم: ﴿لَا تَثْرِيبَ عَلَيْكُمُ الْيَوْمَ ۖ يَغْفِرُ اللَّهُ لَكُمْ﴾، واجتمع بأبيه وتحققت رؤياه.'],
+s:'سورة يوسف كاملة، وتفسير ابن كثير، وتفسير السعدي، وقصص الأنبياء لابن كثير',
+g:'سمّاها الله ﴿أَحْسَنَ الْقَصَصِ﴾ لما فيها من عبر، وهي تسلية لمن مرّ بالحسد والظلم والغربة والفتنة.',
+f:['الصبر على الابتلاء يعقبه الفرج، فلا تيأس.','العفة والتقوى سبب لرفعة الإنسان.','العفو عند المقدرة من أرقى الأخلاق، ولا تحمل حقداً.','الله يدبّر الأمر بلطف من حيث لا تدري.']},
+musa:{r:/موسي|كليم الله/,n:'قصة موسى عليه السلام',
+t:['ولد موسى عليه السلام وفرعون يذبح أبناء بني إسرائيل، فأوحى الله إلى أمه أن ترضعه ثم تلقيه في اليم ولا تخاف ولا تحزن. فالتقطه آل فرعون، وردّه الله إلى أمه لتقرّ عينها. ونشأ في قصر فرعون، وفي شبابه قتل رجلاً من القبط خطأ، فخرج خائفاً إلى مدين، وسقى لابنتي رجل صالح وعمل عنده سنين وتزوج إحداهما.','وفي طريق عودته ناداه ربه عند الوادي المقدس طوى وكلّمه، وأعطاه آية العصا واليد، وأرسله هو وأخوه هارون إلى فرعون بالتوحيد وإطلاق بني إسرائيل. فجمع فرعون السحرة، فألقى موسى عصاه فإذا هي تلقف ما يأفكون، فآمن السحرة وخرّوا ساجدين.','ثم خرج موسى ببني إسرائيل ليلاً، فأدركهم فرعون وجنوده والبحر أمامهم، فقالوا: إنا لمدركون، فقال موسى: ﴿كَلَّا ۖ إِنَّ مَعِيَ رَبِّي سَيَهْدِينِ﴾. فضرب البحر بعصاه فانفلق، فنجا هو ومن معه، وغرق فرعون وجنوده.'],
+s:'سورة القصص (3–43)، وسورة طه (9–98)، وسورة الشعراء (10–68)، وتفسير ابن كثير، وقصص الأنبياء لابن كثير',
+g:'هو أكثر نبي ذُكرت قصته في القرآن، لتثبيت المؤمنين أمام الظلم والطغيان، وبيان أن الله ينصر عباده وإن اشتد الكرب.',
+f:['حين تضيق بك الدنيا تذكّر أن معك ربك فسيهديك.','الظلم مهما طال نهايته إلى زوال.','الله يحفظ من توكل عليه من حيث لا يتوقع.']},
+isa:{r:/عيسي|المسيح|مريم/,n:'قصة عيسى ومريم عليهما السلام',
+t:['كانت مريم عليها السلام عابدة صالحة نشأت في رعاية زكريا عليه السلام، فبشّرتها الملائكة بأن الله اصطفاها وطهّرها واصطفاها على نساء العالمين. ثم بشّرها جبريل بغلام زكي، فتعجبت وقالت: ﴿أَنَّىٰ يَكُونُ لِي غُلَامٌ وَلَمْ يَمْسَسْنِي بَشَرٌ﴾، فقال: ﴿كَذَٰلِكِ قَالَ رَبُّكِ هُوَ عَلَيَّ هَيِّنٌ﴾.','ولما ولدت عيسى عليه السلام وأتت به قومها وقد اتهموها، أشارت إليه فنطق وهو في المهد: ﴿إِنِّي عَبْدُ اللَّهِ آتَانِيَ الْكِتَابَ وَجَعَلَنِي نَبِيًّا﴾. وأيّده الله بالمعجزات بإذنه: يبرئ الأكمه والأبرص، ويحيي الموتى بإذن الله، وينبئهم بما يأكلون وما يدخرون في بيوتهم.','وآمن به الحواريون ونصروه، وكفر به أكثر بني إسرائيل وأرادوا قتله، فأخبر الله أنهم ﴿وَمَا قَتَلُوهُ وَمَا صَلَبُوهُ وَلَٰكِن شُبِّهَ لَهُمْ﴾، بل رفعه الله إليه، وسينزل في آخر الزمان كما صحّ في الأحاديث.'],
+s:'سورة آل عمران (35–63)، وسورة مريم (16–36)، وسورة المائدة (110–118)، وسورة النساء (157–158)، وتفسير ابن كثير، وصحيحا البخاري ومسلم في نزوله',
+g:'تعظيم قدرة الله، وبيان أن عيسى عبد الله ورسوله ومريم صدّيقة طاهرة، وتصحيح ما انحرف فيه الناس.',
+f:['قدرة الله لا يعجزها شيء، فأحسن الظن به.','العفة والصبر على التهمة وثقتك بالله ترفعك.','التوحيد أصل الدين، ورسل الله كلهم عباد له.']},
+yunus:{r:/يونس|ذو النون|صاحب الحوت/,n:'قصة يونس عليه السلام',
+t:['بعث الله يونس عليه السلام إلى أهل نينوى كما ذكر المفسرون، فدعاهم فلم يستجيبوا، فغضب وخرج مغاضباً قبل أن يأذن له ربه، ظانّاً أن الله لن يضيّق عليه. فركب السفينة، وعند اضطراب البحر اقترعوا فخرجت القرعة عليه، فألقي في البحر فالتقمه الحوت.','في ظلمات ثلاث: ظلمة الليل والبحر وبطن الحوت، نادى يونس ربه: ﴿لَا إِلَٰهَ إِلَّا أَنتَ سُبْحَانَكَ إِنِّي كُنتُ مِنَ الظَّالِمِينَ﴾. فاستجاب الله له ونجّاه من الغم، ولولا أنه كان من المسبحين للبث في بطنه إلى يوم يبعثون، فنُبذ بالعراء وهو سقيم، وأنبت الله عليه شجرة من يقطين.','ثم أرسله الله إلى مئة ألف أو يزيدون فآمنوا فمتّعهم إلى حين، وهم القوم الذين كشف الله عنهم عذاب الخزي لما آمنوا.'],
+s:'سورة الصافات (139–148)، وسورة الأنبياء (87–88)، وسورة يونس (98)، وسورة القلم (48–50)، وتفسير ابن كثير',
+g:'بيان أثر التسبيح والاعتراف بالتقصير في الفرج، وأن الصبر على الناس مطلوب حتى مع قلة الاستجابة.',
+f:['لا تتعجل في الحكم ولا تترك موقعك غاضباً، فالصبر خير.','في أشد الضيق توجّه لله بالتسبيح والاستغفار.','باب الرجوع مفتوح، ومن أخطأ ورجع قُبل منه.']},
+ayyub:{r:/ايوب/,n:'قصة أيوب عليه السلام',
+t:['كان أيوب عليه السلام نبياً صالحاً أنعم الله عليه بالصحة والأهل والمال، ثم ابتلاه في جسده وماله وأهله، فصبر صبراً عظيماً زمناً طويلاً، حتى قال الله عنه: ﴿إِنَّا وَجَدْنَاهُ صَابِرًا ۚ نِّعْمَ الْعَبْدُ ۖ إِنَّهُ أَوَّابٌ﴾.','ولما اشتد عليه البلاء نادى ربه بأدب: ﴿أَنِّي مَسَّنِيَ الضُّرُّ وَأَنتَ أَرْحَمُ الرَّاحِمِينَ﴾، ولم يطلب كشف الضر صراحة بل عرض حاله على ربه. فاستجاب الله له وقال: ﴿ارْكُضْ بِرِجْلِكَ ۖ هَٰذَا مُغْتَسَلٌ بَارِدٌ وَشَرَابٌ﴾، فشُفي، ورزقه الله أهله ومثلهم معهم رحمة منه وذكرى للعابدين.','وذكر العلماء أن كثيراً من التفاصيل المنتشرة عن مرضه لا يثبت بسند صحيح، فنكتفي بما جاء في القرآن.'],
+s:'سورة الأنبياء (83–84)، وسورة ص (41–44)، وتفسير ابن كثير، وقصص الأنبياء لابن كثير',
+g:'تقديم نموذج للصبر الجميل عند البلاء وحسن الظن بالله.',
+f:['اشتكِ لله بأدب وثقة، فهو أرحم الراحمين.','البلاء لا يعني أن الله تخلى عنك.','الصبر عاقبته فرج وتعويض.']},
+muhammad:{r:/محمد|سيره النبي|سيره الرسول|المصطفي/,n:'سيرة النبي محمد ﷺ (مختصرة)',
+t:['ولد النبي محمد ﷺ في مكة عام الفيل، ونشأ يتيماً، فكفله جده ثم عمه أبو طالب، وعُرف بين قومه بالصادق الأمين. ولما بلغ الأربعين كان يتعبد في غار حراء، فجاءه جبريل عليه السلام بأول الوحي: ﴿اقْرَأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ﴾. فرجع إلى خديجة رضي الله عنها يرجف فؤاده، فثبّتته وقالت: كلا والله لا يخزيك الله أبداً (رواه البخاري في أول صحيحه).','دعا قومه إلى التوحيد، فآمن به قلة واشتد أذى قريش عليه وعلى أصحابه. وخرج إلى الطائف فردّوه وآذوه، فدعا ربه ولم يدعُ عليهم بل رجا أن يخرج الله من أصلابهم من يعبده. ثم أُسري به إلى بيت المقدس وعُرج به إلى السماوات وفُرضت الصلاة، وهاجر إلى المدينة فبنى المسجد وآخى بين المهاجرين والأنصار.','وخاض مع أصحابه غزوات منها بدر وأحد والخندق، ثم عاد إلى مكة فاتحاً، فعفا عن أهلها الذين آذوه، وقال كما في كتب السيرة: اذهبوا فأنتم الطلقاء. وأتم الله به الدين، وتوفي ﷺ في المدينة وقد بلّغ الرسالة وأدّى الأمانة.'],
+s:'صحيح البخاري (بدء الوحي)، وصحيح مسلم، والسيرة النبوية لابن هشام، والبداية والنهاية لابن كثير، والرحيق المختوم للمباركفوري',
+g:'التعرف على القدوة الأعظم، وبيان أن رسالته رحمة للعالمين: ﴿وَمَا أَرْسَلْنَاكَ إِلَّا رَحْمَةً لِّلْعَالَمِينَ﴾ (الأنبياء 107).',
+f:['صبره وعفوه وأخلاقه قدوة نتعلم منها في حياتنا اليومية.','الثبات على الحق رغم الأذى، والدعاء لمن آذاك.','الرحمة والعفو أقوى أثراً من الانتقام.']},
+kahf:{r:/اصحاب الكهف|الكهف/,n:'قصة أصحاب الكهف',
+t:['كانوا فتية آمنوا بربهم في زمن قوم يعبدون غير الله، فزادهم الله هدى وربط على قلوبهم، فقاموا وقالوا: ﴿رَبُّنَا رَبُّ السَّمَاوَاتِ وَالْأَرْضِ لَن نَّدْعُوَ مِن دُونِهِ إِلَٰهًا﴾. ولما خافوا على دينهم اعتزلوا قومهم ولجؤوا إلى الكهف، ودعوا: ﴿رَبَّنَا آتِنَا مِن لَّدُنكَ رَحْمَةً وَهَيِّئْ لَنَا مِنْ أَمْرِنَا رَشَدًا﴾.','فضرب الله على آذانهم في الكهف سنين عدداً، ولبثوا ﴿ثَلَاثَ مِائَةٍ سِنِينَ وَازْدَادُوا تِسْعًا﴾، ثم بعثهم الله فتساءلوا كم لبثنا، وأرسلوا أحدهم يشتري طعاماً بنقودهم القديمة، فانكشف أمرهم وعرف الناس أن وعد الله حق وأن الساعة لا ريب فيها. أما عددهم فلم يرد فيه تحديد قاطع، وأرشد القرآن إلى أن ربنا أعلم بعدّتهم.'],
+s:'سورة الكهف (9–26)، وتفسير ابن كثير، وتفسير السعدي',
+g:'الثبات على الدين في زمن الفتن، ولجوء المؤمن إلى الله حين يضيق به المجتمع.',
+f:['الثبات على المبدأ قوة، والله يربط على قلوب أهل الحق.','اعتزال الفتنة أحياناً حماية لك.','الله لا يضيّع من لجأ إليه.']}
+};
+var MENU1=[['يوسف','yusuf'],['يونس','yunus'],['محمد ﷺ','muhammad'],['آدم وحواء','adam'],['عيسى','isa'],['موسى','musa']];
+var MENU2=[['نوح','nuh'],['إبراهيم','ibrahim'],['أيوب','ayyub'],['أصحاب الكهف','kahf']];
+var STORYW=/قصه|قصص|سيره|احكي|اسرد|سرد|حدثني|اخبرني عن/;
+var ak=$('ak'),akc=$('akc'),busyA=false,hist=[],AI=null,aiTried=false;
+function findStory(s){var ks=Object.keys(STORIES);for(var i=0;i<ks.length;i++){if(STORIES[ks[i]].r.test(s))return ks[i]}return null}
+function abub(cls,node){var d=document.createElement('div');d.className='cb '+cls;if(typeof node==='string')d.textContent=fmt(node);else d.appendChild(node);ak.appendChild(d);ak.scrollTop=ak.scrollHeight;return d}
+function atyping(){var d=el('div','dots');d.innerHTML='<i></i><i></i><i></i>';return abub('bot',d)}
+function asay(fn,delay){return new Promise(function(res){var t=atyping();setTimeout(function(){t.remove();fn();res()},reduce?0:delay)})}
+function menu(){akc.textContent='';MENU1.concat([['أنبياء وصالحين آخرين','more']]).forEach(function(it){var b=el('button','chip',it[0]);b.type='button';b.onclick=function(){pickMenu(it)};akc.appendChild(b)})}
+function menu2(){akc.textContent='';MENU2.concat([['رجوع','back']]).forEach(function(it){var b=el('button','chip',it[0]);b.type='button';b.onclick=function(){pickMenu(it)};akc.appendChild(b)})}
+function pickMenu(it){if(busyA)return;
+if(it[1]==='back'){menu();return}
+if(it[1]==='more'){abub('me',it[0]);busyA=true;asay(function(){abub('bot','هذي قصص ثانية، اختر اللي تبي، أو اكتب اسم أي نبي أو شخصية صالحة وأجتهد أجاوبك.')},700).then(function(){busyA=false;menu2()});akc.textContent='';return}
+abub('me',it[0]);akc.textContent='';tellStory(it[1])}
+async function tellStory(key){var S=STORIES[key];busyA=true;akc.textContent='';
+try{
+await asay(function(){var w=el('div');w.appendChild(el('span','h',S.n));S.t.forEach(function(p){w.appendChild(el('p','',p))});abub('bot',w)},1200);
+await asay(function(){var w=el('div');w.appendChild(el('span','h','الغرض من القصة'));w.appendChild(el('p','',S.g));w.appendChild(el('span','h','الفائدة اللي المفروض تطلع فيها'));S.f.forEach(function(x){w.appendChild(el('p','step',x))});
+w.appendChild(el('div','src','وليش نقرأ قصص الأنبياء؟ قال تعالى:'));w.appendChild(el('div','nass','﴿وَكُلًّا نَّقُصُّ عَلَيْكَ مِنْ أَنبَاءِ الرُّسُلِ مَا نُثَبِّتُ بِهِ فُؤَادَكَ ۚ وَجَاءَكَ فِي هَٰذِهِ الْحَقُّ وَمَوْعِظَةٌ وَذِكْرَىٰ لِلْمُؤْمِنِينَ﴾'));w.appendChild(el('span','ref','سورة هود، آية 120'));
+w.appendChild(el('p','','ذكر ابن كثير أن في قصص الأنبياء تثبيتاً لقلب النبي ﷺ وتسلية له، وفيها موعظة وتذكير للمؤمنين.'));w.appendChild(el('div','src','المصادر: '+S.s));abub('bot',w)},1300);
+await asay(function(){abub('bot','وش رايك نسمع قصة ثانية؟ أو اسألني أي سؤال.')},700)
+}finally{busyA=false;menu()}}
+async function getAI(){if(aiTried)return AI;aiTried=true;try{if(window.claude&&window.claude.use)AI=await window.claude.use('sample')}catch(e){AI=null}
+var n=$('aknote');n.textContent=AI?'الإجابات الحرة تولّدها أداة ذكاء اصطناعي وقد تخطئ، فتحقق من المصادر الأصلية.':'الإجابات الحرة غير متاحة حالياً، لكن قصص الأنبياء والصالحين متاحة بالكامل.';return AI}
+function aiInstr(){var g=G==='f'?'المؤنث':G==='m'?'المذكر':'المذكر أو المؤنث بحسب ما يظهر من كلامه';
+return 'أنت «سكينة»، مساعد ذكاء اصطناعي ودود ولطيف. أجب بلهجة سعودية بسيطة، وعند سرد القصص استخدم فصحى مبسطة وسلسة. أجب عن أي سؤال بوضوح وفائدة. القواعد: (1) في الأمور الدينية استند إلى مصادر معتمدة: القرآن الكريم (اذكر السورة ورقم الآية)، والصحيحان وبقية كتب السنة (اذكر الكتاب ودرجة الحديث إن عرفتها)، وتفاسير ابن كثير والسعدي والطبري، وكتاب قصص الأنبياء لابن كثير. لا تخترع آية ولا حديثاً ولا رقماً، وإذا لم تتأكد فقل ذلك وانصح بالرجوع لأهل العلم، وميّز بين الثابت والإسرائيليات، وأحِل الفتاوى إلى أهل العلم. (2) عند طلب قصة نبي أو شخصية صالحة: اسردها بتسلسل وتشويق مع التركيز على الثابت، ثم اختم بقسمين بعنوانيهما: «الغرض من القصة» و«الفائدة اللي المفروض تطلع فيها»، ثم اذكر المصادر، واقترح قصصاً أخرى. (3) لا تشخّص مرضاً ولا تذكر أدوية، وفي الدعم النفسي ركّز على الوعي الذاتي والتحفيز وانصح بمختص عند الحاجة وبشكل اختياري، وإذا ظهر خطر على حياة المستخدم فاذكر أرقام 997 و911 و937. (4) اكتب نصاً عادياً بلا رموز تنسيق مثل النجوم أو علامة # أو الشرطات، واترك سطراً فارغاً بين الفقرات. (5) لا تذكر اسم أي شركة أو نموذج، وإذا سُئلت هل أنت إنسان فقل إنك مساعد ذكاء اصطناعي. (6) خاطب المستخدم بصيغة '+g+'.'}
+async function askAI(q){var ai=await getAI();if(!ai)return false;
+hist.push({role:'user',content:q});var msgs=hist.slice(-8);while(msgs.length&&msgs[0].role!=='user')msgs.shift();
+msgs=msgs.map(function(m,i){return i===0?{role:'user',content:aiInstr()+'\n\nسؤال المستخدم:\n'+m.content}:m});
+var t=atyping(),node=el('div','pw'),b=null;
+try{var r=await ai(msgs,{cache:false,onText:function(x){if(!b){t.remove();b=abub('bot',node)}node.textContent=x.text;ak.scrollTop=ak.scrollHeight}});
+if(!b){t.remove();b=abub('bot',node)}node.textContent=r.text+(r.truncated?'...':'');hist.push({role:'assistant',content:r.text});return true}
+catch(e){t.remove();if(b)b.remove();hist.pop();if(e&&e.code==='not_granted'){AI=null;$('aknote').textContent='ما تم السماح بالإجابات الحرة، لكن قصص الأنبياء متاحة بالكامل.'}else if(e&&e.code==='rate_limited'){await asay(function(){abub('bot','الطلبات كثيرة الحين، جرّب بعد شوي.')},500);return true}return false}}
+async function handleAsk(raw){if(busyA)return;busyA=true;akc.textContent='';abub('me',raw);var s=norm(raw),again=false;
+try{
+if(INTENT.test(s)||CRISIS.test(s)||SOFT.test(s)){await asay(function(){abub('bot alert',crisis(INTENT.test(s)))},700);return}
+var key=findStory(s);
+if(key&&(STORYW.test(s)||s.length<=25||!(await getAI()))){again=true;return}
+var ok=await askAI(raw);
+if(!ok)await asay(function(){abub('bot',key?'تقدر تسمع قصته من القائمة تحت.':'ما أقدر أجاوب على هالسؤال الحين، بس أقدر أسرد لك قصص الأنبياء والصالحين بمصادرها. اختر من تحت.')},800)
+}finally{busyA=false;if(again){tellStory(findStory(norm(raw)))}else if(!akc.children.length)menu()}}
+$('af').onsubmit=function(e){e.preventDefault();var v=$('at').value.trim();if(!v)return;$('at').value='';handleAsk(v)};
+$('at').onkeydown=function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();$('af').requestSubmit()}};
+abub('bot','حياك الله! أنا سكينة، اسألني أي سؤال وأجاوبك وأفيدك. وإذا تبي، وش رايك نسمع معاً قصة من قصص الأنبياء والصالحين؟ اختر من تحت، أو اكتب اسم أي نبي أو شخصية صالحة.');menu();getAI();
+
+// ---- hero typing + counters
+var TAGS=['كل يوم يمر فيك هو خطوة نمو','قيمتك أكبر من همّك','التعب مرحلة، مو نهاية الطريق','الله أكبر من كل ضيق'];
+function typeInto(el,txt,sp,cb){var i=0;if(reduce){el.textContent=txt;cb&&cb();return}(function n(){el.textContent=txt.slice(0,++i);if(i<txt.length)setTimeout(n,sp);else cb&&cb()})()}
+var tg=$('tg'),ti=0;
+function loop(){typeInto(tg,TAGS[ti],55,function(){setTimeout(function(){(function del(){var s=tg.textContent;if(s.length>0&&!reduce){tg.textContent=s.slice(0,-1);setTimeout(del,22)}else{ti=(ti+1)%TAGS.length;loop()}})()},1800)})}
+typeInto($('ti'),'سكينة',220,loop);
+function startApp(){G=ls('sk_g',null);$('chat').textContent='';$('chips').textContent='';busy=false;dMood=0;dAp=-1;
+if(G)askMood();else askGender();
+singleChips($('dm'),MN,function(i){dMood=i+1});singleChips($('da'),AP.map(function(a){return a[0]}),function(i){dAp=i});toggles($('dp'));toggles($('pt'));renderPrayerStatic();syncP();renderList();renderGrowth();$('dsave').onclick=saveEntry;count($('s4'),moodDays())}
+var sm=$('sosm');
+$('sos').onclick=function(){sm.hidden=false};$('sosx').onclick=function(){sm.hidden=true};
+startApp();
+var tk=Object.keys(T).length;
+$('s1').dataset.n=tk;$('s2').dataset.n=tk;$('s3').dataset.n=tk*2;$('s4').dataset.n=moodDays();
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');e.target.querySelectorAll('[data-n]').forEach(function(b){count(b,+b.dataset.n)});io.unobserve(e.target)}})},{threshold:.15});
+document.querySelectorAll('.rv').forEach(function(s){io.observe(s)});
+
+// ---- particles
+var c=$('bg'),x=c.getContext('2d'),W,H,PT=[],m={x:-999,y:-999};
+function size(){W=c.width=innerWidth;H=c.height=innerHeight;var n=Math.min(85,Math.floor(W*H/14000));PT=[];for(var k=0;k<n;k++)PT.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.38,vy:(Math.random()-.5)*.38,r:Math.random()*1.8+.8})}
+size();addEventListener('resize',size);addEventListener('pointermove',function(e){m.x=e.clientX;m.y=e.clientY});
+function frame(){x.clearRect(0,0,W,H);
+for(var a=0;a<PT.length;a++){var p=PT[a];
+if(!reduce){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;var dx=p.x-m.x,dy=p.y-m.y,d=Math.hypot(dx,dy);if(d<110){p.x+=dx/d*1.4;p.y+=dy/d*1.4}}
+x.fillStyle='rgba(155,140,255,.85)';x.beginPath();x.arc(p.x,p.y,p.r,0,6.283);x.fill();
+for(var j=a+1;j<PT.length;j++){var q=PT[j],u=p.x-q.x,v=p.y-q.y,dd=Math.hypot(u,v);if(dd<120){x.strokeStyle='rgba(111,227,255,'+(.22*(1-dd/120))+')';x.lineWidth=1;x.beginPath();x.moveTo(p.x,p.y);x.lineTo(q.x,q.y);x.stroke()}}}
+if(!reduce)requestAnimationFrame(frame)}
+frame();
+})();
+</script>
+</body>
+</html>
